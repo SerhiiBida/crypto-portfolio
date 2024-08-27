@@ -1,6 +1,9 @@
 <script>
+import HeaderLayout from "@/layouts/HeaderLayout.vue";
+
 export default {
   name: "App",
+  components: {HeaderLayout},
   data() {
     return {}
   }
@@ -8,9 +11,12 @@ export default {
 </script>
 
 <template>
-  <p>
-    gfgjfgjf
-  </p>
-  <input type="text">
-  <RouterView/>
+  <v-app>
+    <HeaderLayout/>
+
+    <v-main>
+      <RouterView/>
+    </v-main>
+
+  </v-app>
 </template>

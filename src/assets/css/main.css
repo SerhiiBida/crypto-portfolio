@@ -1,3 +1,6 @@
 @import "base.css";
+.header-user-info .v-avatar {
+  border: none;
+}
 
 /*# sourceMappingURL=main.css.map */

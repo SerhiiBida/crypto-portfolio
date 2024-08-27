@@ -12,7 +12,15 @@ const vuetify = createVuetify({
         defaultSet: "mdi",
     },
     theme: {
-        defaultTheme: "light"
+        defaultTheme: "light",
+        themes: {
+            light: {
+                colors: {
+                    background: "#f9f9f9",
+                    surface: "#f9f9f9"
+                }
+            }
+        }
     }
 });
 
