@@ -1,5 +1,5 @@
 <script>
-import LoginForm from "@/components/user/LoginForm.vue";
+import LoginForm from "@/components/auth/LoginForm.vue";
 
 export default {
   name: "LoginView",

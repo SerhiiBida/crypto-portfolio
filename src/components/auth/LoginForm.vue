@@ -1,15 +1,43 @@
 <script>
 import {authForm} from "@/mixins/form.js";
+import AuthFirebase from "@/servises/auth.js";
 
 export default {
   name: "LoginForm",
   mixins: [authForm],
   methods: {
+    outputError(error) {
+      const errorCode = error.code;
+
+      let errorMessage;
+
+      if (errorCode === "auth/invalid-email") {
+        errorMessage = "Invalid email";
+
+      } else if (errorCode === "auth/user-not-found") {
+        errorMessage = "No account with that email was found";
+
+      } else if (errorCode === "auth/wrong-password") {
+        errorMessage = "Incorrect password";
+
+      } else {
+        errorMessage = "Email or password was incorrect";
+      }
+
+      this.serverError = errorMessage;
+    },
     async authorization() {
       const valid = await this.validateForm();
 
       if (valid) {
-        console.log(valid);
+        const auth = new AuthFirebase();
+
+        auth.login(
+            this.form.email,
+            this.form.password,
+            this.$router,
+            this.outputError
+        );
       }
     }
   }
@@ -60,6 +88,11 @@ export default {
           required
       >
       </v-text-field>
+
+      <p class="text-red text-center mb-1">
+        {{ serverError }}
+      </p>
+
       <v-btn
           class="mb-3"
           type="submit"

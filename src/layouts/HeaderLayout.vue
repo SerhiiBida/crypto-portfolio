@@ -1,6 +1,14 @@
 <script>
+import {mapStores} from "pinia";
+import {useUserStore} from "@/stores/auth.js";
+
 export default {
   name: "HeaderLayout",
+  props: {
+    isLoggedIn: Boolean,
+    userEmail: String,
+    userRole: String
+  },
   data() {
     return {
       drawer: true
@@ -15,6 +23,11 @@ export default {
     goToLogin() {
       this.$router.push({
         name: "login"
+      });
+    },
+    goToPortfolio() {
+      this.$router.push({
+        name: "portfolio"
       });
     }
   }
@@ -41,14 +54,14 @@ export default {
       :location="$vuetify.display.mobile ? 'bottom' : undefined"
   >
     <!--Информация пользователь-->
-    <!--    <v-list>-->
-    <!--      <v-list-item-->
-    <!--          class="header-drawer-user-info"-->
-    <!--          prepend-avatar="/src/assets/images/user-default.png"-->
-    <!--          title="...???..."-->
-    <!--          subtitle="...???..."-->
-    <!--      ></v-list-item>-->
-    <!--    </v-list>-->
+    <v-list v-if="isLoggedIn">
+      <v-list-item
+          class="header-drawer-auth-info"
+          prepend-avatar="/src/assets/images/user-default.png"
+          :title="userEmail"
+          :subtitle="userRole"
+      ></v-list-item>
+    </v-list>
 
     <v-divider></v-divider>
 
@@ -59,17 +72,27 @@ export default {
         nav
     >
       <v-list-item
+          v-if="!isLoggedIn"
           prepend-icon="mdi-login"
           title="Login / Register"
           value="login"
           @click="goToLogin"
       >
       </v-list-item>
+
+      <v-list-item
+          v-if="isLoggedIn"
+          prepend-icon="mdi-widgets"
+          title="Portfolio"
+          value="login"
+          @click="goToPortfolio"
+      >
+      </v-list-item>
     </v-list>
 
     <!--Выход пользователя-->
     <template #append>
-      <slot name="append">
+      <slot name="logout">
       </slot>
     </template>
   </v-navigation-drawer>

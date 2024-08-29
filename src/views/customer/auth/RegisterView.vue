@@ -1,5 +1,5 @@
 <script>
-import RegisterForm from "@/components/user/RegisterForm.vue";
+import RegisterForm from "@/components/auth/RegisterForm.vue";
 
 export default {
   name: "RegisterView",

@@ -21,6 +21,7 @@ export const authForm = {
                 v => this.regexps.rePassword.test(v)
                     || "Requires one number, an uppercase letter, a lowercase letter, and a special character"
             ],
+            serverError: ""
         }
     },
     methods: {

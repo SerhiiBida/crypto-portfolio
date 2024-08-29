@@ -1,15 +1,26 @@
 <script>
 import {authForm} from "@/mixins/form.js";
+import AuthFirebase from "@/servises/auth.js";
 
 export default {
   name: "RegisterForm",
   mixins: [authForm],
   methods: {
+    outputError(error) {
+      this.serverError = error;
+    },
     async registration() {
       const valid = await this.validateForm();
 
       if (valid) {
-        console.log(valid);
+        const auth = new AuthFirebase();
+
+        auth.register(
+            this.form.email,
+            this.form.password,
+            this.$router,
+            this.outputError
+        );
       }
     }
   }
@@ -26,7 +37,7 @@ export default {
         alt="logo"
     ></v-img>
     <p class="text-h4 text-center font-weight-bold mb-2">
-      Welcome back!
+      Welcome!
     </p>
     <p class="text-h6 font-weight-regular text-center mb-8">
       Create a new account
@@ -60,6 +71,11 @@ export default {
           required
       >
       </v-text-field>
+
+      <p class="text-red text-center mb-1">
+        {{ serverError }}
+      </p>
+
       <v-btn
           class="mb-3"
           type="submit"
