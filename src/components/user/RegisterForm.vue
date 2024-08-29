@@ -3,7 +3,16 @@ import {authForm} from "@/mixins/form.js";
 
 export default {
   name: "RegisterForm",
-  mixins: [authForm]
+  mixins: [authForm],
+  methods: {
+    async registration() {
+      const valid = await this.validateForm();
+
+      if (valid) {
+        console.log(valid);
+      }
+    }
+  }
 }
 </script>
 
@@ -20,16 +29,25 @@ export default {
       Welcome back!
     </p>
     <p class="text-h6 font-weight-regular text-center mb-8">
-      Create a new account.
+      Create a new account
     </p>
 
     <!--Форма-->
-    <form action="#" method="post" class="register-form">
+    <v-form
+        ref="form"
+        action="#"
+        method="post"
+        class="register-form"
+        @submit.prevent="registration"
+    >
       <v-text-field
           v-model="form.email"
+          class="mb-2"
           label="Email"
           type="email"
+          :rules="emailRules"
           variant="outlined"
+          required
       >
       </v-text-field>
       <v-text-field
@@ -37,10 +55,17 @@ export default {
           class="mb-2"
           label="Password"
           type="password"
+          :rules="passwordRules"
           variant="outlined"
+          required
       >
       </v-text-field>
-      <v-btn class="mb-3" block color="blue-accent-3">
+      <v-btn
+          class="mb-3"
+          type="submit"
+          block
+          color="blue-accent-3"
+      >
         Register
       </v-btn>
 
@@ -52,6 +77,6 @@ export default {
           </a>
         </RouterLink>
       </p>
-    </form>
+    </v-form>
   </section>
 </template>
