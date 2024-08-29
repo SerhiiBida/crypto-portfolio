@@ -13,8 +13,15 @@
   }
 }
 
+// NotFoundView.vue
+.not-found {
+  max-height: 1080px;
+}
+
 // LoginView.vue
-.login-view {
+// RegisterForm.vue
+.login-view,
+.register-view {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +30,9 @@
 }
 
 // LoginForm.vue
-.login-form-wrapper {
+// RegisterForm.vue
+.login-form-wrapper,
+.register-form-wrapper{
   max-width: 300px;
   width: 100%;
 }

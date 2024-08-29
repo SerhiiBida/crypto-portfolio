@@ -2,22 +2,13 @@
 import {authForm} from "@/mixins/form.js";
 
 export default {
-  name: "LoginForm",
-  mixins: [authForm],
-  methods: {
-    async authorization() {
-      const valid = await this.validateForm();
-
-      if (valid) {
-        console.log(valid);
-      }
-    }
-  }
+  name: "RegisterForm",
+  mixins: [authForm]
 }
 </script>
 
 <template>
-  <section class="login-form-wrapper">
+  <section class="register-form-wrapper">
     <!--Заголовки-->
     <v-img
         class="mx-auto my-4"
@@ -29,25 +20,16 @@ export default {
       Welcome back!
     </p>
     <p class="text-h6 font-weight-regular text-center mb-8">
-      Log into your account
+      Create a new account.
     </p>
 
     <!--Форма-->
-    <v-form
-        ref="form"
-        action="#"
-        method="post"
-        class="login-form"
-        @submit.prevent="authorization"
-    >
+    <form action="#" method="post" class="register-form">
       <v-text-field
           v-model="form.email"
-          class="mb-2"
           label="Email"
           type="email"
-          :rules="emailRules"
           variant="outlined"
-          required
       >
       </v-text-field>
       <v-text-field
@@ -55,28 +37,21 @@ export default {
           class="mb-2"
           label="Password"
           type="password"
-          :rules="passwordRules"
           variant="outlined"
-          required
       >
       </v-text-field>
-      <v-btn
-          class="mb-3"
-          type="submit"
-          block
-          color="blue-accent-3"
-      >
-        Log in
+      <v-btn class="mb-3" block color="blue-accent-3">
+        Register
       </v-btn>
 
       <p class="text-center">
-        Don't have an account?
-        <RouterLink :to="{name: 'register'}">
+        Do you have an account?
+        <RouterLink :to="{name: 'login'}">
           <a href="#">
-            Sign up
+            Sign in
           </a>
         </RouterLink>
       </p>
-    </v-form>
+    </form>
   </section>
 </template>
