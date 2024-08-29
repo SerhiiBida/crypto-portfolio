@@ -12,7 +12,15 @@ export default {
 
 <template>
   <v-app>
-    <HeaderLayout/>
+    <HeaderLayout>
+      <template #append>
+        <div class="pa-2">
+          <v-btn color="blue-accent-3" block>
+            Logout
+          </v-btn>
+        </div>
+      </template>
+    </HeaderLayout>
 
     <v-main>
       <RouterView/>

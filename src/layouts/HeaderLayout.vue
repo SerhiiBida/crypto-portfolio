@@ -3,7 +3,19 @@ export default {
   name: "HeaderLayout",
   data() {
     return {
-      drawer: false
+      drawer: true
+    }
+  },
+  methods: {
+    goToHome() {
+      this.$router.push({
+        name: "home"
+      });
+    },
+    goToLogin() {
+      this.$router.push({
+        name: "login"
+      });
     }
   }
 }
@@ -12,34 +24,53 @@ export default {
 <template>
   <!--Верхнее меню-->
   <v-app-bar
-      color="cyan-accent-4"
+      class="header-bar"
+      color="blue-accent-3"
   >
     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-    <v-toolbar-title>Crypto Portfolio</v-toolbar-title>
+    <v-toolbar-title class="header-bar-title" @click="goToHome">
+      Crypto Portfolio
+    </v-toolbar-title>
   </v-app-bar>
 
   <!--Боковая панель-->
   <v-navigation-drawer
-      class="header"
+      class="header-drawer"
       v-model="drawer"
-      color="cyan-accent-1"
       :location="$vuetify.display.mobile ? 'bottom' : undefined"
   >
-    <v-list>
-      <v-list-item
-          class="header-user-info"
-          prepend-avatar="/src/assets/images/user-default.png"
-          title="...???..."
-          subtitle="...???..."
-      ></v-list-item>
-    </v-list>
+    <!--Информация пользователь-->
+    <!--    <v-list>-->
+    <!--      <v-list-item-->
+    <!--          class="header-drawer-user-info"-->
+    <!--          prepend-avatar="/src/assets/images/user-default.png"-->
+    <!--          title="...???..."-->
+    <!--          subtitle="...???..."-->
+    <!--      ></v-list-item>-->
+    <!--    </v-list>-->
 
     <v-divider></v-divider>
 
-    <v-list class="size" density="compact" nav>
-      <v-list-item prepend-icon="mdi-home-city" title="Login" value="login"></v-list-item>
-      <v-list-item prepend-icon="mdi-account" title="Register" value="register"></v-list-item>
+    <!--Меню навигации-->
+    <v-list
+        class="header-drawer-menu size"
+        density="compact"
+        nav
+    >
+      <v-list-item
+          prepend-icon="mdi-login"
+          title="Login / Register"
+          value="login"
+          @click="goToLogin"
+      >
+      </v-list-item>
     </v-list>
+
+    <!--Выход пользователя-->
+    <template #append>
+      <slot name="append">
+      </slot>
+    </template>
   </v-navigation-drawer>
 </template>
