@@ -7,6 +7,13 @@
   border: none;
 }
 
+.home {
+  max-height: 1080px;
+}
+.home .home-img img {
+  max-width: 300px;
+}
+
 .not-found {
   max-height: 1080px;
 }

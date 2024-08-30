@@ -51,7 +51,7 @@ router.beforeEach(async (to, from) => {
     // Авторизован
     if ((to.name === "registration" || to.name === "login") && userStore.isLoggedIn) {
         return {
-            name: "home"
+            name: "portfolio"
         }
     }
 

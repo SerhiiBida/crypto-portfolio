@@ -19,8 +19,7 @@ const app = createApp(App);
 
 app.use(vuetify)
     .use(pinia)
-    .use(router)
-    .mount("#app");
+    .use(router);
 
 // Firebase
 const firebaseConfig = {
@@ -46,3 +45,5 @@ const authFirebase = new AuthFirebase();
 
 // Наблюдатель за аутентификацией и ролью пользователя
 authFirebase.watcherAuthorizationAndRole();
+
+app.mount("#app");

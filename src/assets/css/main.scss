@@ -13,6 +13,17 @@
   }
 }
 
+// HomeView.vue
+.home {
+  max-height: 1080px;
+
+  .home-img {
+    img {
+      max-width: 300px;
+    }
+  }
+}
+
 // NotFoundView.vue
 .not-found {
   max-height: 1080px;
@@ -32,7 +43,7 @@
 // LoginForm.vue
 // RegisterForm.vue
 .login-form-wrapper,
-.register-form-wrapper{
+.register-form-wrapper {
   max-width: 300px;
   width: 100%;
 }
