@@ -4,6 +4,7 @@ import {defineStore} from "pinia"
 export const useUserStore = defineStore("user", {
     state: () => {
         return {
+            firstCheckPassed: false,
             user: {
                 isLoggedIn: false,
                 accessToken: "",
@@ -14,6 +15,7 @@ export const useUserStore = defineStore("user", {
         }
     },
     getters: {
+        getFirstCheckPassed: (state) => state.firstCheckPassed,
         isLoggedIn: (state) => state.user.isLoggedIn,
         isAdmin: (state) => state.user.isAdmin,
         getUserEmail: (state) => state.user.email,
@@ -35,6 +37,9 @@ export const useUserStore = defineStore("user", {
             for (let key in this.user) {
                 this.user[key] = typeof this.user[key] === "boolean" ? false : "";
             }
+        },
+        updateFirstCheckPassed(value) {
+            this.firstCheckPassed = value;
         }
     }
 });

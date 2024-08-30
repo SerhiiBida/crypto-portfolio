@@ -8,6 +8,7 @@ import {useUserStore} from "@/stores/auth.js";
 import {pinia} from "@/main.js";
 import {auth} from "@/main.js"
 import User from "@/servises/database.js";
+import {delay} from "@/utils/utils.js";
 
 export default class AuthFirebase {
     #auth;
@@ -84,6 +85,22 @@ export default class AuthFirebase {
 
                 listenerUser = null;
             }
+
+            // Первая загрузка страницы
+            if (!this.#userStore.getFirstCheckPassed) {
+                this.#userStore.updateFirstCheckPassed(true);
+            }
         });
+    }
+
+    // Задержка для первой загрузки страницы, чтобы успеть получить данные авторизации
+    async waitAuthorizationData(delayMilliseconds) {
+        if (!this.#userStore.getFirstCheckPassed && delayMilliseconds < 3000) {
+            await delay(delayMilliseconds);
+
+            delayMilliseconds += 100;
+
+            await this.waitAuthorizationData(delayMilliseconds);
+        }
     }
 };

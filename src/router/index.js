@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 
 import {useUserStore} from "@/stores/auth.js";
 import {pinia} from "@/main.js";
+import AuthFirebase from "@/servises/auth.js";
 
 
 const router = createRouter({
@@ -40,6 +41,13 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     const userStore = useUserStore(pinia);
+
+    // Задержка для первой проверки авторизации
+    if (!userStore.getFirstCheckPassed) {
+        const auth = new AuthFirebase();
+
+        await auth.waitAuthorizationData(100);
+    }
 
     // Не авторизован
     if (to.meta?.requiresAuth && !userStore.isLoggedIn) {
