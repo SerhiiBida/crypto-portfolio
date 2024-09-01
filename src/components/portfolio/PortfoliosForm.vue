@@ -29,7 +29,7 @@ export default {
 </script>
 
 <template>
-  <section class="portfolios-form-wrapper">
+  <section class="portfolios-form-wrapper my-2">
     <p class="portfolios-form-title text-h6 text-center font-weight-bold text-blue-accent-3 mb-4">
       Portfolios
     </p>

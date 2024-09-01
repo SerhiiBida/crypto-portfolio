@@ -88,6 +88,10 @@ export class Portfolios {
         }
     }
 
+    async updatePortfolioName(name) {
+
+    }
+
     listenerOff(listenerPortfolios) {
         return listenerPortfolios ? listenerPortfolios() : null;
     }

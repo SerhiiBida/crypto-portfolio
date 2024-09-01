@@ -1,0 +1,54 @@
+<script>
+export default {
+  name: "DialogYesNo",
+  props: {
+    classActivator: String,
+    colorActivator: String,
+    iconActivator: String,
+    titleDialog: String,
+    colorDialog: String
+  }
+}
+</script>
+
+<template>
+  <v-dialog max-width="400">
+    <!--Кнопка активатор модального окна-->
+    <template #activator="{ props: activatorProps }">
+      <slot name="activator" :activator-props="activatorProps">
+        <v-btn
+            v-bind="activatorProps"
+            :class="classActivator"
+            :color="colorActivator"
+            :icon="iconActivator"
+        ></v-btn>
+      </slot>
+    </template>
+
+    <!--Подтверждение-->
+    <template #default="{ isActive }">
+      <v-card :title="titleDialog" :color="colorDialog">
+        <v-card-text>
+          <slot name="text">
+            There's some text here...
+          </slot>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <slot name="yes-no-buttons" :is-active="isActive">
+            <v-btn
+                text="Yes"
+                @click="isActive.value = false"
+            ></v-btn>
+            <v-btn
+                text="No"
+                @click="isActive.value = false"
+            ></v-btn>
+          </slot>
+        </v-card-actions>
+      </v-card>
+    </template>
+  </v-dialog>
+</template>

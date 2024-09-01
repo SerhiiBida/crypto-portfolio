@@ -1,12 +1,16 @@
 <script>
+import {portfolioForm} from "@/mixins/form.js";
+import DialogYesNo from "@/components/ui/DialogYesNo.vue";
+
 export default {
   name: "PortfolioForm",
+  components: {DialogYesNo},
+  mixins: [portfolioForm],
   props: {
     portfolio: Object
   },
   data() {
     return {
-      newName: this.portfolio.name,
       isDisabled: true,
     }
   },
@@ -19,7 +23,7 @@ export default {
       this.changeIsDisabled();
     },
     cancelChangePortfolioName() {
-      this.newName = this.portfolio.name
+      this.form.name = this.portfolio.name
 
       this.changeIsDisabled();
     },
@@ -29,18 +33,23 @@ export default {
 
       // Code...
     }
+  },
+  mounted() {
+    this.form.name = this.portfolio.name;
   }
 }
 </script>
 
 <template>
-  <form
+  <v-form
+      ref="form"
       action="#"
       method="post"
       class="portfolio-form d-flex justify-center align-start"
   >
     <v-text-field
-        v-model="newName"
+        v-model="form.name"
+        :rules="nameRules"
         variant="solo"
         v-bind="{disabled: isDisabled}"
         class="portfolio-form-input"
@@ -65,38 +74,28 @@ export default {
       ></v-btn>
 
       <!--Удаление портфеля-->
-      <v-dialog max-width="400">
-        <template #activator="{ props: activatorProps }">
+      <DialogYesNo
+          class-activator="ml-1 mt-1"
+          color-activator="red"
+          icon-activator="mdi-minus-circle"
+          title-dialog="Delete"
+          color-dialog="error"
+      >
+        <template #text>
+          Are you sure you want to delete?
+        </template>
+
+        <template #yes-no-buttons="{isActive}">
           <v-btn
-              v-bind="activatorProps"
-              class="ml-1 mt-1"
-              color="red"
-              icon="mdi-minus-circle"
+              text="Yes"
+              @click="deletePortfolio(isActive)"
+          ></v-btn>
+          <v-btn
+              text="No"
+              @click="isActive.value = false"
           ></v-btn>
         </template>
-
-        <!--Подтверждение-->
-        <template #default="{ isActive }">
-          <v-card title="Delete" color="error">
-            <v-card-text>
-              Are you sure you want to delete?
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-btn
-                  text="Yes"
-                  @click="deletePortfolio(isActive)"
-              ></v-btn>
-              <v-btn
-                  text="No"
-                  @click="isActive.value = false"
-              ></v-btn>
-            </v-card-actions>
-          </v-card>
-        </template>
-      </v-dialog>
+      </DialogYesNo>
     </template>
 
     <!--Изменить название портфеля-->
@@ -115,5 +114,5 @@ export default {
           @click="cancelChangePortfolioName"
       ></v-btn>
     </template>
-  </form>
+  </v-form>
 </template>
