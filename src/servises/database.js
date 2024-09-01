@@ -1,8 +1,7 @@
-import {getDatabase, ref, set, onValue, off} from "firebase/database";
-
-import {doc, setDoc, onSnapshot} from "firebase/firestore";
+import {doc, setDoc, onSnapshot, collection, query, where, getDocs} from "firebase/firestore";
 
 import {db} from "@/main.js";
+import {usePortfoliosStore} from "@/stores/portfolios.js";
 
 export default class User {
     #db = db;
@@ -34,4 +33,32 @@ export default class User {
 
 export class Portfolios {
     #db = db;
+    #portfoliosStore = usePortfoliosStore()
+
+    listenerUserPortfolios(userId) {
+        const portfoliosRef = query(
+            collection(this.#db, "portfolios"),
+            where("user_id", "==", userId)
+        );
+
+        return onSnapshot(portfoliosRef, (querySnapshot) => {
+            const portfolios = [];
+
+            querySnapshot.forEach((doc) => {
+                const id = doc.data().id;
+                const name = doc.data().name;
+
+                portfolios.push({
+                    id,
+                    name
+                });
+            });
+
+            this.#portfoliosStore.updateData(portfolios);
+        });
+    }
+
+    listenerOff(listenerPortfolios) {
+        return listenerPortfolios ? listenerPortfolios() : null;
+    }
 }

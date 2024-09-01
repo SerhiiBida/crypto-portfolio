@@ -1,24 +1,30 @@
 <script>
+import {mapStores} from "pinia";
+
 import PortfolioForm from "@/components/portfolio/PortfolioForm.vue";
+import {usePortfoliosStore} from "@/stores/portfolios.js";
 
 export default {
   name: "PortfoliosForm",
   components: {PortfolioForm},
   data() {
     return {
-      portfolios: [
-        {id: 1, name: "Portfolio 1"},
-        {id: 2, name: "Portfolio 2"},
-        {id: 3, name: "Portfolio 3"},
-        // {id: 4, name: "Portfolio 4"},
-        // {id: 5, name: "Portfolio 5"},
-      ],
       form: {
         name: ""
-      }
+      },
+    }
+  },
+  computed: {
+    ...mapStores(usePortfoliosStore),
+    portfolios() {
+      return this.portfoliosStore.getData;
+    }
+  },
+  methods: {
+    createPortfolio() {
 
     }
-  }
+  },
 }
 </script>
 
@@ -57,6 +63,7 @@ export default {
           type="submit"
           block
           color="blue-accent-3"
+          @click="createPortfolio"
       >
         Add
       </v-btn>

@@ -7,18 +7,20 @@ import {
 import {useUserStore} from "@/stores/auth.js";
 import {pinia} from "@/main.js";
 import {auth} from "@/main.js"
-import User from "@/servises/database.js";
+import User, {Portfolios} from "@/servises/database.js";
 import {delay} from "@/utils/utils.js";
 
 export default class AuthFirebase {
     #auth;
     #userStore;
     #dbUser;
+    #dbPortfolios
 
     constructor() {
         this.#auth = auth;
         this.#userStore = useUserStore(pinia);
         this.#dbUser = new User();
+        this.#dbPortfolios = new Portfolios();
     }
 
     register(email, password, router, outputError) {
@@ -68,22 +70,28 @@ export default class AuthFirebase {
 
     watcherAuthorizationAndRole() {
         let listenerUser = null;
+        let listenerPortfolios = null;
 
         // Наблюдатель за аутентификацией
         onAuthStateChanged(this.#auth, (user) => {
             this.#dbUser.listenerOff(listenerUser);
+            this.#dbPortfolios.listenerOff(listenerPortfolios);
 
             if (user) {
                 this.#userStore.addUser(user);
 
                 // Наблюдатель за правами пользователя
                 listenerUser = this.#dbUser.listenerUserRole(user.uid, this.#userStore);
+                // Наблюдатель за портфелями пользователя
+                listenerPortfolios = this.#dbPortfolios.listenerUserPortfolios(user.uid);
             } else {
                 this.#userStore.reset();
 
                 this.#dbUser.listenerOff(listenerUser);
+                this.#dbPortfolios.listenerOff(listenerPortfolios);
 
                 listenerUser = null;
+                listenerPortfolios = null;
             }
 
             // Первая загрузка страницы

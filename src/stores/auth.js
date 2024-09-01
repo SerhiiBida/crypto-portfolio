@@ -19,6 +19,7 @@ export const useUserStore = defineStore("user", {
         isLoggedIn: (state) => state.user.isLoggedIn,
         isAdmin: (state) => state.user.isAdmin,
         getUserEmail: (state) => state.user.email,
+        getUserId: (state) => state.user.id,
         getUserRoleText: (state) => {
             return state.user.isAdmin ? "Admin" : "User";
         }
