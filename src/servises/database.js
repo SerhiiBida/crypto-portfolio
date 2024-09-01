@@ -1,7 +1,8 @@
-import {doc, setDoc, onSnapshot, collection, query, where, getDocs} from "firebase/firestore";
+import {doc, setDoc, onSnapshot, collection, query, where, addDoc} from "firebase/firestore";
 
 import {db, pinia} from "@/main.js";
 import {usePortfoliosStore} from "@/stores/portfolios.js";
+import {useUserStore} from "@/stores/auth.js";
 
 export default class User {
     #db;
@@ -10,11 +11,15 @@ export default class User {
         this.#db = db;
     }
 
-    addUserRole(user, isAdmin = false) {
-        setDoc(doc(this.#db, "users", user.uid), {
-            email: user.email,
-            is_admin: isAdmin
-        });
+    async addUserRole(user, isAdmin = false) {
+        try {
+            await setDoc(doc(this.#db, "users", user.uid), {
+                email: user.email,
+                is_admin: isAdmin
+            });
+        } catch (error) {
+            console.log(`Error, addUserRole: ${error}`);
+        }
     }
 
     listenerUserRole(userId, userStore) {
@@ -38,10 +43,12 @@ export default class User {
 export class Portfolios {
     #db;
     #portfoliosStore;
+    #userStore;
 
     constructor() {
         this.#db = db;
         this.#portfoliosStore = usePortfoliosStore(pinia);
+        this.#userStore = useUserStore();
     }
 
     listenerUserPortfolios(userId) {
@@ -65,6 +72,20 @@ export class Portfolios {
 
             this.#portfoliosStore.updateData(portfolios);
         });
+    }
+
+    async addPortfolio(name) {
+        const userId = this.#userStore.getUserId;
+
+        try {
+            await addDoc(collection(this.#db, "portfolios"), {
+                user_id: userId,
+                name,
+                portfolio: {}
+            });
+        } catch (error) {
+            console.log(`Error, addPortfolio: ${error}`);
+        }
     }
 
     listenerOff(listenerPortfolios) {

@@ -1,39 +1,35 @@
 <script>
-import {mapStores} from "pinia";
-
 import PortfolioForm from "@/components/portfolio/PortfolioForm.vue";
-import {usePortfoliosStore} from "@/stores/portfolios.js";
+import {portfolioForm} from "@/mixins/form.js";
+import {Portfolios} from "@/servises/database.js";
 
 export default {
   name: "PortfoliosForm",
-  components: {PortfolioForm},
-  data() {
-    return {
-      form: {
-        name: ""
-      },
-    }
+  mixins: [portfolioForm],
+  components: {
+    PortfolioForm
   },
   computed: {
-    ...mapStores(usePortfoliosStore),
     portfolios() {
       return this.portfoliosStore.getData;
     }
   },
   methods: {
-    createPortfolio() {
+    async addPortfolio() {
+      const valid = await this.validateForm();
 
+      if (valid) {
+        const dbPortfolio = new Portfolios();
+
+        await dbPortfolio.addPortfolio(this.form.name);
+      }
     }
   },
 }
 </script>
 
 <template>
-  <form
-      action="#"
-      method="post"
-      class="portfolios-form"
-  >
+  <section class="portfolios-form-wrapper">
     <p class="portfolios-form-title text-h6 text-center font-weight-bold text-blue-accent-3 mb-4">
       Portfolios
     </p>
@@ -51,22 +47,31 @@ export default {
         Or
       </v-divider>
 
-      <v-text-field
-          label="Name"
-          variant="outlined"
-          class="mt-4"
+      <v-form
+          ref="form"
+          action="#"
+          method="post"
+          class="portfolios-form"
+          @submit.prevent="addPortfolio"
       >
-      </v-text-field>
+        <v-text-field
+            v-model="form.name"
+            :rules="nameRules"
+            label="Name"
+            variant="outlined"
+            class="mt-4"
+            required
+        >
+        </v-text-field>
 
-      <v-btn
-          v-model="form.name"
-          type="submit"
-          block
-          color="blue-accent-3"
-          @click="createPortfolio"
-      >
-        Add
-      </v-btn>
+        <v-btn
+            type="submit"
+            block
+            color="blue-accent-3"
+        >
+          Add
+        </v-btn>
+      </v-form>
     </div>
     <div v-else class="portfolios-form-add">
       <v-btn
@@ -76,5 +81,5 @@ export default {
         Maximum 5 portfolios
       </v-btn>
     </div>
-  </form>
+  </section>
 </template>

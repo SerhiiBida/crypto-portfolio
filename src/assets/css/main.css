@@ -41,7 +41,7 @@
   max-height: 1080px;
 }
 
-.portfolios-form {
+.portfolios-form-wrapper {
   max-width: 500px;
   width: 100%;
   padding: 25px;
@@ -51,7 +51,7 @@
   border-width: 1px;
   background-color: rgb(var(--v-theme-surface));
 }
-.portfolios-form .portfolios-form-title {
+.portfolios-form-wrapper .portfolios-form-title {
   text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
 }
 .portfolio-form {

@@ -58,7 +58,7 @@
 }
 
 // PortfoliosForm.vue
-.portfolios-form {
+.portfolios-form-wrapper {
   max-width: 500px;
   width: 100%;
   padding: 25px;
@@ -90,5 +90,4 @@
       opacity: var(--v-medium-emphasis-opacity);
     }
   }
-
 }

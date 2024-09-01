@@ -1,3 +1,7 @@
+import {mapStores} from "pinia";
+
+import {usePortfoliosStore} from "@/stores/portfolios.js";
+
 export const authForm = {
     data() {
         return {
@@ -11,8 +15,7 @@ export const authForm = {
             },
             emailRules: [
                 v => !!v || "Email is required",
-                v => this.regexps.reEmail.test(v)
-                    || "Email is invalid"
+                v => this.regexps.reEmail.test(v) || "Email is invalid"
             ],
             passwordRules: [
                 v => !!v || "Password is required",
@@ -26,9 +29,37 @@ export const authForm = {
     },
     methods: {
         async validateForm() {
-            const {valid} = await this.$refs.form.validate()
+            const {valid} = await this.$refs.form.validate();
 
             return valid;
         },
     }
-}
+};
+
+
+export const portfolioForm = {
+    data() {
+        return {
+            form: {
+                name: ""
+            },
+            nameRules: [
+                v => !!v || "The name cannot be empty",
+                v => (v && v.length >= 5 && v.length <= 16)
+                    || "The name must have from 5 to 16 characters",
+                v => !this.portfoliosStore.getData.find(item => item.name === v)
+                    || "The name matches another portfolio"
+            ],
+        }
+    },
+    computed: {
+        ...mapStores(usePortfoliosStore),
+    },
+    methods: {
+        async validateForm() {
+            const {valid} = await this.$refs.form.validate();
+
+            return valid;
+        },
+    }
+};
