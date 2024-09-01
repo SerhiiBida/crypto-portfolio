@@ -1,10 +1,14 @@
 import {doc, setDoc, onSnapshot, collection, query, where, getDocs} from "firebase/firestore";
 
-import {db} from "@/main.js";
+import {db, pinia} from "@/main.js";
 import {usePortfoliosStore} from "@/stores/portfolios.js";
 
 export default class User {
-    #db = db;
+    #db;
+
+    constructor() {
+        this.#db = db;
+    }
 
     addUserRole(user, isAdmin = false) {
         setDoc(doc(this.#db, "users", user.uid), {
@@ -32,8 +36,13 @@ export default class User {
 
 
 export class Portfolios {
-    #db = db;
-    #portfoliosStore = usePortfoliosStore()
+    #db;
+    #portfoliosStore;
+
+    constructor() {
+        this.#db = db;
+        this.#portfoliosStore = usePortfoliosStore(pinia);
+    }
 
     listenerUserPortfolios(userId) {
         const portfoliosRef = query(
