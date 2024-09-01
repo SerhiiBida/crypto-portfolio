@@ -7,6 +7,11 @@
   border: none;
 }
 
+.header-drawer .portfolio-form-prepend-img {
+  width: 2.25em;
+  opacity: var(--v-medium-emphasis-opacity);
+}
+
 .home {
   max-height: 1080px;
 }

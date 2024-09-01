@@ -1,6 +1,6 @@
 <script>
 import {mapStores} from "pinia";
-import {useUserStore} from "@/stores/auth.js";
+import {usePortfoliosStore} from "@/stores/portfolios.js";
 
 export default {
   name: "HeaderLayout",
@@ -12,6 +12,12 @@ export default {
   data() {
     return {
       drawer: true
+    }
+  },
+  computed: {
+    ...mapStores(usePortfoliosStore),
+    portfolios() {
+      return this.portfoliosStore.getData;
     }
   },
   methods: {
@@ -28,6 +34,14 @@ export default {
     goToPortfoliosManagement() {
       this.$router.push({
         name: "portfolios-management"
+      });
+    },
+    goToPortfolio(portfolioId) {
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          id: portfolioId
+        }
       });
     }
   }
@@ -71,23 +85,42 @@ export default {
         density="compact"
         nav
     >
-      <v-list-item
-          v-if="!isLoggedIn"
-          prepend-icon="mdi-login"
-          title="Login / Register"
-          value="login"
-          @click="goToLogin"
-      >
-      </v-list-item>
+      <template v-if="isLoggedIn">
+        <!--Авторизован-->
+        <v-list-item
+            prepend-icon="mdi-widgets"
+            title="Portfolios management"
+            value="portfolios-management"
+            @click="goToPortfoliosManagement"
+        >
+        </v-list-item>
 
-      <v-list-item
-          v-if="isLoggedIn"
-          prepend-icon="mdi-widgets"
-          title="Portfolios management"
-          value="portfolios-management"
-          @click="goToPortfoliosManagement"
-      >
-      </v-list-item>
+        <v-list-item
+            v-for="portfolio in portfolios"
+            :key="portfolio.id"
+            :title="portfolio.name"
+            :value="portfolio.name"
+            @click="goToPortfolio(portfolio.id)"
+        >
+          <template #prepend>
+            <img
+                src="@/assets/images/work.png"
+                alt="work"
+                class="portfolio-form-prepend-img"
+            />
+          </template>
+        </v-list-item>
+      </template>
+      <template v-else>
+        <v-list-item
+            prepend-icon="mdi-login"
+            title="Login / Register"
+            value="login"
+            @click="goToLogin"
+        >
+        </v-list-item>
+      </template>
+
     </v-list>
 
     <!--Выход пользователя-->

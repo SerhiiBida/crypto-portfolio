@@ -13,6 +13,13 @@
   }
 }
 
+.header-drawer {
+  .portfolio-form-prepend-img {
+    width: calc(1.5 * 1.5em);
+    opacity: var(--v-medium-emphasis-opacity);
+  }
+}
+
 // HomeView.vue
 .home {
   max-height: 1080px;
