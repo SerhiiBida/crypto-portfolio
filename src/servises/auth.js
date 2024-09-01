@@ -28,7 +28,7 @@ export default class AuthFirebase {
                 this.#dbUser.addUserRole(userData.user);
 
                 router.push({
-                    name: "portfolio"
+                    name: "portfolios-management"
                 });
             })
             .catch((error) => {
@@ -43,7 +43,7 @@ export default class AuthFirebase {
         signInWithEmailAndPassword(this.#auth, email, password)
             .then((userData) => {
                 router.push({
-                    name: "portfolio"
+                    name: "portfolios-management"
                 });
             })
             .catch((error) => {

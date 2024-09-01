@@ -24,9 +24,9 @@ const router = createRouter({
             component: () => import("@/views/customer/auth/RegisterView.vue"),
         },
         {
-            path: "/user/portfolio",
-            name: "portfolio",
-            component: () => import("@/views/customer/portfolio/PortfolioView.vue"),
+            path: "/user/portfolios-management",
+            name: "portfolios-management",
+            component: () => import("@/views/customer/portfolio/PortfoliosManagementView.vue"),
             meta: {
                 requiresAuth: true
             }
@@ -59,7 +59,7 @@ router.beforeEach(async (to, from) => {
     // Авторизован
     if ((to.name === "registration" || to.name === "login") && userStore.isLoggedIn) {
         return {
-            name: "portfolio"
+            name: "portfolios-management"
         }
     }
 

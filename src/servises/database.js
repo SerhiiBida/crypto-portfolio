@@ -30,3 +30,8 @@ export default class User {
         return listenerUser ? listenerUser() : null;
     }
 }
+
+
+export class Portfolios {
+    
+}

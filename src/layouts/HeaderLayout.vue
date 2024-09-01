@@ -25,9 +25,9 @@ export default {
         name: "login"
       });
     },
-    goToPortfolio() {
+    goToPortfoliosManagement() {
       this.$router.push({
-        name: "portfolio"
+        name: "portfolios-management"
       });
     }
   }
@@ -83,9 +83,9 @@ export default {
       <v-list-item
           v-if="isLoggedIn"
           prepend-icon="mdi-widgets"
-          title="Portfolio"
-          value="login"
-          @click="goToPortfolio"
+          title="Portfolios management"
+          value="portfolios-management"
+          @click="goToPortfoliosManagement"
       >
       </v-list-item>
     </v-list>
