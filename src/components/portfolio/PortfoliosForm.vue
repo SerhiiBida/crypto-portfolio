@@ -32,7 +32,7 @@ export default {
       Portfolios
     </p>
 
-    <div class="portfolios-form-data">
+    <div class="portfolios-form-data d-flex flex-column align-center">
       <template v-if="portfolios.length > 0">
         <template v-for="portfolio in portfolios" :key="portfolio.id">
           <PortfolioForm :portfolio="portfolio"/>
