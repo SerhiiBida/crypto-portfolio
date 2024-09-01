@@ -32,6 +32,14 @@ const router = createRouter({
             }
         },
         {
+            path: "/user/portfolio/:id",
+            name: "portfolio",
+            component: () => import("@/views/customer/portfolio/PortfolioView.vue"),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
             path: "/:pathMatch(.*)*",
             name: "not-found",
             component: () => import("@/views/customer/errors/NotFoundView.vue"),
