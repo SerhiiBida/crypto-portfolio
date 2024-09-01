@@ -33,5 +33,5 @@ export default class User {
 
 
 export class Portfolios {
-    
+    #db = db;
 }

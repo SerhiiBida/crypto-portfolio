@@ -10,7 +10,6 @@ import App from "./App.vue";
 import router from "./router";
 import vuetify from "@/plugins/vuetify.js";
 import env from "../env.js";
-import AuthFirebase from "@/servises/auth.js";
 
 
 export const pinia = createPinia();
@@ -41,6 +40,8 @@ export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
 
 // Кастомный класс
+import AuthFirebase from "@/servises/auth.js";
+
 const authFirebase = new AuthFirebase();
 
 // Наблюдатель за аутентификацией и ролью пользователя

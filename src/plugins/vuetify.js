@@ -13,11 +13,14 @@ const vuetify = createVuetify({
     },
     theme: {
         defaultTheme: "light",
+        options: {
+            customProperties: true
+        },
         themes: {
             light: {
                 colors: {
                     background: "#f9f9f9",
-                    surface: "#f9f9f9"
+                    // surface: "#f9f9f9"
                 }
             }
         }
