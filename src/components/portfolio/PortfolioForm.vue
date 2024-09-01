@@ -1,11 +1,14 @@
 <script>
 import {portfolioForm} from "@/mixins/form.js";
 import DialogYesNo from "@/components/ui/DialogYesNo.vue";
+import {Portfolios} from "@/servises/database.js";
 
 export default {
   name: "PortfolioForm",
-  components: {DialogYesNo},
   mixins: [portfolioForm],
+  components: {
+    DialogYesNo
+  },
   props: {
     portfolio: Object
   },
@@ -18,20 +21,32 @@ export default {
     changeIsDisabled() {
       this.isDisabled = !this.isDisabled;
     },
-    changePortfolioName() {
-      // Code...
-      this.changeIsDisabled();
+    async changePortfolioName() {
+      const valid = await this.validateForm();
+
+      if (valid) {
+        const dbPortfolio = new Portfolios();
+
+        const portfolioId = this.portfolio.id;
+        const name = this.form.name;
+
+        await dbPortfolio.updatePortfolioName(portfolioId, name);
+
+        this.changeIsDisabled();
+      }
     },
     cancelChangePortfolioName() {
       this.form.name = this.portfolio.name
 
       this.changeIsDisabled();
     },
-    deletePortfolio(isActive) {
+    async deletePortfolio(isActive) {
       // Закрываем модальное окно
       isActive.value = false
 
-      // Code...
+      const dbPortfolio = new Portfolios();
+
+      await dbPortfolio.deletePortfolio(this.portfolio.id);
     }
   },
   mounted() {
@@ -49,7 +64,7 @@ export default {
   >
     <v-text-field
         v-model="form.name"
-        :rules="nameRules"
+        :rules="!isDisabled ? nameRules : undefined"
         variant="solo"
         v-bind="{disabled: isDisabled}"
         class="portfolio-form-input"
@@ -66,6 +81,7 @@ export default {
 
     <!--Выбор действия-->
     <template v-if="isDisabled">
+      <!--Изменить Имя-->
       <v-btn
           class="ml-2 mt-1"
           color="orange-darken-2"
@@ -73,7 +89,7 @@ export default {
           @click="changeIsDisabled"
       ></v-btn>
 
-      <!--Удаление портфеля-->
+      <!--Удалить портфель-->
       <DialogYesNo
           class-activator="ml-1 mt-1"
           color-activator="red"

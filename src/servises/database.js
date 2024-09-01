@@ -1,4 +1,8 @@
-import {doc, setDoc, onSnapshot, collection, query, where, addDoc} from "firebase/firestore";
+import {
+    doc, setDoc, onSnapshot,
+    collection, query, where,
+    addDoc, updateDoc, deleteDoc
+} from "firebase/firestore";
 
 import {db, pinia} from "@/main.js";
 import {usePortfoliosStore} from "@/stores/portfolios.js";
@@ -61,7 +65,7 @@ export class Portfolios {
             const portfolios = [];
 
             querySnapshot.forEach((doc) => {
-                const id = doc.data().id;
+                const id = doc.id;
                 const name = doc.data().name;
 
                 portfolios.push({
@@ -88,8 +92,22 @@ export class Portfolios {
         }
     }
 
-    async updatePortfolioName(name) {
+    async updatePortfolioName(portfolioId, name) {
+        try {
+            await updateDoc(doc(this.#db, "portfolios", portfolioId), {
+                name: name
+            });
+        } catch (error) {
+            console.log(`Error, updatePortfolioName: ${error}`);
+        }
+    }
 
+    async deletePortfolio(portfolioId) {
+        try {
+            await deleteDoc(doc(this.#db, "portfolios", portfolioId));
+        } catch (error) {
+            console.log(`Error, deletePortfolio: ${error}`);
+        }
     }
 
     listenerOff(listenerPortfolios) {

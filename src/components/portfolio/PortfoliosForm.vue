@@ -59,7 +59,7 @@ export default {
             :rules="nameRules"
             label="Name"
             variant="outlined"
-            class="mt-4"
+            class="mt-4 mb-1"
             required
         >
         </v-text-field>

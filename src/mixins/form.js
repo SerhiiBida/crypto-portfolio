@@ -47,7 +47,7 @@ export const portfolioForm = {
                 v => !!v || "The name cannot be empty",
                 v => (v && v.length >= 5 && v.length <= 16)
                     || "The name must have from 5 to 16 characters",
-                v => !this.portfoliosStore.getData.find(item => item.name === v)
+                v => !this.portfoliosStore.getData.find(item => item.name === v.trim())
                     || "The name matches another portfolio"
             ],
         }
