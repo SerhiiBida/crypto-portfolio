@@ -72,9 +72,46 @@
 }
 
 .portfolio-view {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 15px;
   height: 100%;
   max-height: 1080px;
+  max-width: 1400px;
   margin: 0 auto;
+}
+
+.portfolio-line-chart {
+  border-radius: 6px;
+  border-color: rgba(var(--v-border-color), var(--v-border-opacity));
+  border-style: solid;
+  border-width: 1px;
+  background-color: rgb(var(--v-theme-surface));
+}
+
+.portfolio-coins {
+  border-radius: 6px;
+  border-color: rgba(var(--v-border-color), var(--v-border-opacity));
+  border-style: solid;
+  border-width: 1px;
+  background-color: rgb(var(--v-theme-surface));
+}
+
+.add-coins-form {
+  border-radius: 6px;
+  border-color: rgba(var(--v-border-color), var(--v-border-opacity));
+  border-style: solid;
+  border-width: 1px;
+  background-color: rgb(var(--v-theme-surface));
+}
+
+.portfolio-pie-chart {
+  border-radius: 6px;
+  border-color: rgba(var(--v-border-color), var(--v-border-opacity));
+  border-style: solid;
+  border-width: 1px;
+  background-color: rgb(var(--v-theme-surface));
 }
 
 /*# sourceMappingURL=main.css.map */

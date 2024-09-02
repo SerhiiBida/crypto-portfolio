@@ -17,6 +17,12 @@
       "symbol": "xrp",
       "name": "XRP",
       "image": "https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442"
+    },
+    {
+      "id": "tether",
+      "symbol": "usdt",
+      "name": "Tether",
+      "image": "https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661"
     }
   ]
 }
