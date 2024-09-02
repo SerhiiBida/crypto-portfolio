@@ -60,6 +60,7 @@
 .portfolios-form-wrapper .portfolios-form-title {
   text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
 }
+
 .portfolio-form {
   max-width: 400px;
   width: 100%;
@@ -99,11 +100,24 @@
 }
 
 .add-coins-form {
+  max-height: 460px;
+  padding: 15px;
   border-radius: 6px;
   border-color: rgba(var(--v-border-color), var(--v-border-opacity));
   border-style: solid;
   border-width: 1px;
   background-color: rgb(var(--v-theme-surface));
+}
+.add-coins-form .add-coins-form-title {
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.add-coins-form-select-coin .v-list-item {
+  padding: 0;
+}
+.add-coins-form-select-coin .v-list-item .v-list-item__prepend img {
+  width: 24px;
+  height: 24px;
 }
 
 .portfolio-pie-chart {
