@@ -30,10 +30,10 @@ export default {
       ref="form"
       action="#"
       method="post"
-      class="add-coins-form"
+      class="add-coin-form"
       @submit.prevent="addCoins"
   >
-    <p class="add-coins-form-title text-h5 text-center font-weight-medium text-blue-accent-3 mb-4">
+    <p class="add-coin-form-title text-h5 text-center font-weight-medium text-blue-accent-3 mb-4">
       Add a coin
     </p>
     <v-autocomplete
@@ -43,7 +43,7 @@ export default {
         item-title="name"
         item-value="id"
         variant="solo"
-        class="add-coins-form-select-coin mb-2"
+        class="add-coin-form-select-coin mb-2"
     >
       <!--Картинка на элементе-->
       <template v-slot:item="{ props, item }">
@@ -75,7 +75,7 @@ export default {
         type="number"
         label="Number of coins"
         variant="solo"
-        class="add-coins-form-input-amount-coins mb-2"
+        class="add-coin-form-input-amount-coins mb-2"
     >
     </v-text-field>
 
@@ -84,7 +84,7 @@ export default {
         type="number"
         label="Investments, $"
         variant="solo"
-        class="add-coins-form-input-amount-money mb-2"
+        class="add-coin-form-input-amount-money mb-2"
     >
     </v-text-field>
 

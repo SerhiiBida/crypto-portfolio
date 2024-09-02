@@ -126,8 +126,8 @@
   background-color: rgb(var(--v-theme-surface));
 }
 
-// AddCoinsForm.vue
-.add-coins-form {
+// AddCoinForm.vue
+.add-coin-form {
   max-height: 460px;
   padding: 15px;
   border-radius: 6px;
@@ -136,12 +136,12 @@
   border-width: 1px;
   background-color: rgb(var(--v-theme-surface));
 
-  .add-coins-form-title {
+  .add-coin-form-title {
     text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
   }
 }
 
-.add-coins-form-select-coin {
+.add-coin-form-select-coin {
   .v-list-item {
     padding: 0;
 

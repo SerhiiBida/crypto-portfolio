@@ -99,7 +99,7 @@
   background-color: rgb(var(--v-theme-surface));
 }
 
-.add-coins-form {
+.add-coin-form {
   max-height: 460px;
   padding: 15px;
   border-radius: 6px;
@@ -108,14 +108,14 @@
   border-width: 1px;
   background-color: rgb(var(--v-theme-surface));
 }
-.add-coins-form .add-coins-form-title {
+.add-coin-form .add-coin-form-title {
   text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.add-coins-form-select-coin .v-list-item {
+.add-coin-form-select-coin .v-list-item {
   padding: 0;
 }
-.add-coins-form-select-coin .v-list-item .v-list-item__prepend img {
+.add-coin-form-select-coin .v-list-item .v-list-item__prepend img {
   width: 24px;
   height: 24px;
 }

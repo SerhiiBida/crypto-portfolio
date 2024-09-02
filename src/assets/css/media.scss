@@ -4,7 +4,7 @@
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-areas:
             "line-chart line-chart"
-            "pie-chart add-coins-form"
+            "pie-chart add-coin-form"
             "portfolio-coins portfolio-coins";
 
     .portfolio-line-chart {
@@ -15,8 +15,8 @@
       grid-area: portfolio-coins;
     }
 
-    .add-coins-form {
-      grid-area: add-coins-form;
+    .add-coin-form {
+      grid-area: add-coin-form;
     }
 
     .portfolio-pie-chart {
@@ -33,6 +33,6 @@
             "line-chart"
             "pie-chart"
             "portfolio-coins"
-            "add-coins-form";
+            "add-coin-form";
   }
 }

@@ -2,7 +2,7 @@
   .portfolio-view {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas: "line-chart line-chart" "pie-chart add-coins-form" "portfolio-coins portfolio-coins";
+    grid-template-areas: "line-chart line-chart" "pie-chart add-coin-form" "portfolio-coins portfolio-coins";
   }
   .portfolio-view .portfolio-line-chart {
     grid-area: line-chart;
@@ -10,8 +10,8 @@
   .portfolio-view .portfolio-coins {
     grid-area: portfolio-coins;
   }
-  .portfolio-view .add-coins-form {
-    grid-area: add-coins-form;
+  .portfolio-view .add-coin-form {
+    grid-area: add-coin-form;
   }
   .portfolio-view .portfolio-pie-chart {
     grid-area: pie-chart;
@@ -21,7 +21,7 @@
   .portfolio-view {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 1fr);
-    grid-template-areas: "line-chart" "pie-chart" "portfolio-coins" "add-coins-form";
+    grid-template-areas: "line-chart" "pie-chart" "portfolio-coins" "add-coin-form";
   }
 }
 

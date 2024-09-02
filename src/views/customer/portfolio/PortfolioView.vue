@@ -1,14 +1,14 @@
 <script>
 import PortfolioLineChart from "@/components/portfolio/PortfolioLineChart.vue";
 import PortfolioCoins from "@/components/portfolio/PortfolioCoins.vue";
-import AddCoinsForm from "@/components/portfolio/AddCoinsForm.vue";
+import AddCoinForm from "@/components/portfolio/AddCoinForm.vue";
 import PortfolioPieChart from "@/components/portfolio/PortfolioPieChart.vue";
 
 export default {
   name: "PortfolioView",
   components: {
     PortfolioPieChart,
-    AddCoinsForm,
+    AddCoinForm,
     PortfolioCoins,
     PortfolioLineChart
   },
@@ -25,6 +25,6 @@ export default {
     <PortfolioLineChart/>
     <PortfolioPieChart/>
     <PortfolioCoins/>
-    <AddCoinsForm/>
+    <AddCoinForm/>
   </section>
 </template>
