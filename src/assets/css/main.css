@@ -71,4 +71,10 @@
   opacity: var(--v-medium-emphasis-opacity);
 }
 
+.portfolio-view {
+  height: 100%;
+  max-height: 1080px;
+  margin: 0 auto;
+}
+
 /*# sourceMappingURL=main.css.map */

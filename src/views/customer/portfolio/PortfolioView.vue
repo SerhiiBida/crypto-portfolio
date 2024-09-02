@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-  <section>
+  <section class="portfolio-view pa-1">
     <h1>
       Portfolio {{ $route.params.id }}
     </h1>

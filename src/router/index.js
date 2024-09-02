@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import {useUserStore} from "@/stores/auth.js";
 import {pinia} from "@/main.js";
 import AuthFirebase from "@/servises/auth.js";
+import {usePortfoliosStore} from "@/stores/portfolios.js";
 
 
 const router = createRouter({
@@ -49,6 +50,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     const userStore = useUserStore(pinia);
+    const portfolioStore = usePortfoliosStore(pinia);
 
     // Задержка для первой проверки авторизации
     if (!userStore.getFirstCheckPassed) {
@@ -73,6 +75,13 @@ router.beforeEach(async (to, from) => {
 
     // Если не админ
     if (to.meta?.isAdminPage && !userStore.isAdmin) {
+        return {
+            name: "not-found"
+        };
+    }
+
+    // Принадлежит ли этот портфель пользователю
+    if (to.name === "portfolio" && !portfolioStore.includesId(to.params.id)) {
         return {
             name: "not-found"
         };
