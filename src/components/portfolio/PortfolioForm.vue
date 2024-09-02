@@ -1,6 +1,6 @@
 <script>
 import {portfolioForm} from "@/mixins/form.js";
-import DialogYesNo from "@/components/ui/DialogYesNo.vue";
+import DialogYesNo from "@/components/ui/dialog/DialogYesNo.vue";
 import {Portfolios} from "@/servises/database.js";
 
 export default {

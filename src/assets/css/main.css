@@ -8,8 +8,9 @@
 }
 
 .header-drawer .portfolio-form-prepend-img {
-  width: 2.25em;
+  width: 1.5em;
   opacity: var(--v-medium-emphasis-opacity);
+  margin-right: 32px;
 }
 
 .home {

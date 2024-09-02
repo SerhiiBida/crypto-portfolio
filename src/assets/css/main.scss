@@ -15,8 +15,9 @@
 
 .header-drawer {
   .portfolio-form-prepend-img {
-    width: calc(1.5 * 1.5em);
+    width: calc(1 * 1.5em);
     opacity: var(--v-medium-emphasis-opacity);
+    margin-right: 32px;
   }
 }
 
