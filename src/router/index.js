@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 
 import {useUserStore} from "@/stores/auth.js";
 import {pinia} from "@/main.js";
-import AuthFirebase from "@/servises/auth.js";
+import AuthFirebase from "@/services/auth.js";
 import {usePortfoliosStore} from "@/stores/portfolios.js";
 
 

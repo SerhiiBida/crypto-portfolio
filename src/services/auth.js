@@ -7,7 +7,7 @@ import {
 import {useUserStore} from "@/stores/auth.js";
 import {pinia} from "@/main.js";
 import {auth} from "@/main.js"
-import User, {Portfolios} from "@/servises/database.js";
+import User, {Portfolios} from "@/services/database.js";
 import {delay} from "@/utils/utils.js";
 
 export default class AuthFirebase {

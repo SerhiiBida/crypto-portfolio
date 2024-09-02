@@ -3,7 +3,7 @@ import {mapStores} from "pinia";
 
 import HeaderLayout from "@/layouts/HeaderLayout.vue";
 import {useUserStore} from "@/stores/auth.js";
-import AuthFirebase from "@/servises/auth.js";
+import AuthFirebase from "@/services/auth.js";
 
 export default {
   name: "App",

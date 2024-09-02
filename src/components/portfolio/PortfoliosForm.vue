@@ -1,7 +1,7 @@
 <script>
 import PortfolioForm from "@/components/portfolio/PortfolioForm.vue";
 import {portfolioForm} from "@/mixins/form.js";
-import {Portfolios} from "@/servises/database.js";
+import {Portfolios} from "@/services/database.js";
 
 export default {
   name: "PortfoliosForm",

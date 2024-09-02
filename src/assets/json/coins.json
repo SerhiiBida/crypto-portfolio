@@ -1,0 +1,22 @@
+{
+  "coins": [
+    {
+      "id": "bitcoin",
+      "symbol": "btc",
+      "name": "Bitcoin",
+      "image": "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400"
+    },
+    {
+      "id": "ethereum",
+      "symbol": "eth",
+      "name": "Ethereum",
+      "image": "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628"
+    },
+    {
+      "id": "ripple",
+      "symbol": "xrp",
+      "name": "XRP",
+      "image": "https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442"
+    }
+  ]
+}

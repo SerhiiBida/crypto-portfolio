@@ -40,7 +40,7 @@ export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
 
 // Кастомный класс
-import AuthFirebase from "@/servises/auth.js";
+import AuthFirebase from "@/services/auth.js";
 
 const authFirebase = new AuthFirebase();
 

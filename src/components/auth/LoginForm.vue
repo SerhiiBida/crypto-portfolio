@@ -1,6 +1,6 @@
 <script>
 import {authForm} from "@/mixins/form.js";
-import AuthFirebase from "@/servises/auth.js";
+import AuthFirebase from "@/services/auth.js";
 
 export default {
   name: "LoginForm",
