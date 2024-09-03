@@ -21,7 +21,13 @@ export default {
       if (valid) {
         const dbPortfolio = new Portfolios();
 
+        this.isLoading = true;
+
         await dbPortfolio.addPortfolio(this.form.name);
+
+        this.isLoading = false;
+
+        this.$refs.form.reset();
       }
     }
   },
@@ -65,6 +71,8 @@ export default {
         </v-text-field>
 
         <v-btn
+            :loading="isLoading"
+            :disabled="isLoading"
             type="submit"
             block
             color="blue-accent-3"

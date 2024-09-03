@@ -1,23 +1,15 @@
 <script>
 import AutocompleteWithImg from "@/components/ui/autocomplete/AutocompleteWithImg.vue";
+import {Coins, Portfolios} from "@/services/database.js";
 
 export default {
   name: "AddCoinsForm",
-  components: {AutocompleteWithImg},
+  components: {
+    AutocompleteWithImg
+  },
   data() {
     return {
-      availableCoins: [
-        {
-          id: "btc",
-          name: "Bitcoin",
-          image: "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400"
-        },
-        {
-          id: "ethereum",
-          name: "Ethereum",
-          image: "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628"
-        }
-      ],
+      availableCoins: [],  // [{id:"", name:"", image:"",}, ...]
       form: {
         selectedCoin: "",
         coinsAmount: 0,
@@ -34,6 +26,7 @@ export default {
         v => !!v || "Cannot be equal to 0",
         v => v > 0 || "Can't be negative"
       ],
+      isLoading: false
     }
   },
   methods: {
@@ -46,9 +39,25 @@ export default {
       const valid = await this.validateForm();
 
       if (valid) {
+        const portfolio = new Portfolios();
 
+        const portfolioId = this.$route.params.id;
+
+        this.isLoading = true;
+
+        await portfolio.addCoinInPortfolio(portfolioId, this.form);
+
+        this.isLoading = false;
+
+        this.$refs.form.reset();
       }
     }
+  },
+  async mounted() {
+    // Загрузка монет для выбора
+    const coins = new Coins();
+
+    this.availableCoins = await coins.getCoins();
   }
 }
 </script>
@@ -99,6 +108,8 @@ export default {
     </v-text-field>
 
     <v-btn
+        :loading="isLoading"
+        :disabled="isLoading"
         type="submit"
         block
         color="blue-accent-3"

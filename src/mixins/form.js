@@ -50,6 +50,7 @@ export const portfolioForm = {
                 v => !this.portfoliosStore.includesName(v)
                     || "The name matches another portfolio"
             ],
+            isLoading: false
         }
     },
     computed: {

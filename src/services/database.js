@@ -1,12 +1,14 @@
 import {
     doc, setDoc, onSnapshot,
     collection, query, where,
-    addDoc, updateDoc, deleteDoc
+    addDoc, updateDoc, deleteDoc,
+    getDocs, increment
 } from "firebase/firestore";
 
 import {db, pinia} from "@/main.js";
 import {usePortfoliosStore} from "@/stores/portfolios.js";
 import {useUserStore} from "@/stores/auth.js";
+import {delay} from "@/utils/utils.js";
 
 export default class User {
     #db;
@@ -52,7 +54,7 @@ export class Portfolios {
     constructor() {
         this.#db = db;
         this.#portfoliosStore = usePortfoliosStore(pinia);
-        this.#userStore = useUserStore();
+        this.#userStore = useUserStore(pinia);
     }
 
     listenerUserPortfolios(userId) {
@@ -85,7 +87,6 @@ export class Portfolios {
             await addDoc(collection(this.#db, "portfolios"), {
                 user_id: userId,
                 name,
-                portfolio: {}
             });
         } catch (error) {
             console.log(`Error, addPortfolio: ${error}`);
@@ -113,6 +114,23 @@ export class Portfolios {
     listenerOff(listenerPortfolios) {
         return listenerPortfolios ? listenerPortfolios() : null;
     }
+
+    async addCoinInPortfolio(portfolioId, {selectedCoin: coinId, coinsAmount, moneyAmount}) {
+        try {
+            await addDoc(collection(this.#db, "coins_in_portfolios"), {
+                portfolio_id: portfolioId,
+                coin_id: coinId,
+                coins_amount: coinsAmount,
+                money_amount: moneyAmount,
+                date: new Date()
+            });
+        } catch (error) {
+            console.log(`Error, addCoinInPortfolio: ${error}`);
+        }
+
+        // Не чаще 1 раза в секунду
+        await delay(1000);
+    }
 }
 
 
@@ -125,6 +143,21 @@ export class Coins {
 
     async getCoins() {
         try {
+            const coinsSnapshot = await getDocs(collection(this.#db, "coins"));
+
+            const coins = [];
+
+            coinsSnapshot.forEach((doc) => {
+                coins.push(
+                    {
+                        id: doc.id,
+                        name: doc.data().name,
+                        image: doc.data().image
+                    }
+                );
+            });
+
+            return coins;
 
         } catch (error) {
             console.log(`Error, getCoins: ${error}`);

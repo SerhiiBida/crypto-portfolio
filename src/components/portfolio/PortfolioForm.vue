@@ -30,7 +30,11 @@ export default {
         const portfolioId = this.portfolio.id;
         const name = this.form.name;
 
+        this.isLoading = true;
+
         await dbPortfolio.updatePortfolioName(portfolioId, name);
+
+        this.isLoading = false;
 
         this.changeIsDisabled();
       }
@@ -117,6 +121,8 @@ export default {
     <!--Изменить название портфеля-->
     <template v-if="!isDisabled">
       <v-btn
+          :loading="isLoading"
+          :disabled="isLoading"
           class="ml-2 mt-1"
           color="primary"
           icon="mdi-checkbox-marked-circle"
