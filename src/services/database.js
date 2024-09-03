@@ -8,6 +8,7 @@ import {
 import {db, pinia} from "@/main.js";
 import {usePortfoliosStore} from "@/stores/portfolios.js";
 import {useUserStore} from "@/stores/auth.js";
+import {delay} from "@/utils/utils.js";
 
 
 class BasicFirestore {
@@ -91,7 +92,7 @@ export class CoinsInPortfolios extends BasicFirestore {
         super();
     }
 
-    async addCoinInPortfolio(portfolioId, {selectedCoin: coinId, coinsAmount, moneyAmount}) {
+    async addCoinInPortfolio(portfolioId, coinId, coinsAmount, moneyAmount) {
         try {
             await addDoc(collection(this.db, "coins_in_portfolios"), {
                 portfolio_id: portfolioId,
@@ -103,6 +104,8 @@ export class CoinsInPortfolios extends BasicFirestore {
         } catch (error) {
             console.log(`Error, addCoinInPortfolio: ${error}`);
         }
+
+        await delay(1000);
     }
 
     async deleteCoinsInPortfolio(portfolioId) {

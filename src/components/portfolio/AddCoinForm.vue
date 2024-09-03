@@ -1,6 +1,6 @@
 <script>
 import AutocompleteWithImg from "@/components/ui/autocomplete/AutocompleteWithImg.vue";
-import {Coins, CoinsInPortfolios, Portfolios} from "@/services/database.js";
+import {Coins, CoinsInPortfolios} from "@/services/database.js";
 
 export default {
   name: "AddCoinsForm",
@@ -18,13 +18,10 @@ export default {
       selectCoinRules: [
         v => !!v || "Be sure to select a coin"
       ],
-      coinsAmountRules: [
+      numberRules: [
         v => !!v || "Cannot be equal to 0",
-        v => v > 0 || "Can't be negative"
-      ],
-      moneyAmountRules: [
-        v => !!v || "Cannot be equal to 0",
-        v => v > 0 || "Can't be negative"
+        v => !isNaN(v) || "Must be a number",
+        v => v > 0 || "Can't be negative",
       ],
       isLoading: false
     }
@@ -43,11 +40,18 @@ export default {
 
         const portfolioId = this.$route.params.id;
 
+        const coinId = this.form.selectedCoin;
+        const coinsAmount = Number(this.form.coinsAmount);
+        const moneyAmount = Number(this.form.moneyAmount);
+
         this.isLoading = true;
 
-        // console.log(typeof this.form.coinsAmount)
-
-        await coinsInPortfolios.addCoinInPortfolio(portfolioId, this.form);
+        await coinsInPortfolios.addCoinInPortfolio(
+            portfolioId,
+            coinId,
+            coinsAmount,
+            moneyAmount
+        );
 
         this.isLoading = false;
 
@@ -60,6 +64,8 @@ export default {
     const coins = new Coins();
 
     this.availableCoins = await coins.getCoins();
+
+    this.$refs.form.reset();
   }
 }
 </script>
@@ -90,7 +96,7 @@ export default {
         v-model="form.coinsAmount"
         type="number"
         label="Number of coins"
-        :rules="coinsAmountRules"
+        :rules="numberRules"
         variant="solo"
         class="add-coin-form-input-amount-coins mb-2"
         @input="form.coinsAmount = form.coinsAmount < 0 ? 0 : form.coinsAmount"
@@ -102,7 +108,7 @@ export default {
         v-model="form.moneyAmount"
         type="number"
         label="Investments, $"
-        :rules="moneyAmountRules"
+        :rules="numberRules"
         variant="solo"
         class="add-coin-form-input-amount-money mb-2"
         @input="form.moneyAmount = form.moneyAmount < 0 ? 0 : form.moneyAmount"
