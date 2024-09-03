@@ -2,6 +2,7 @@
 import {portfolioForm} from "@/mixins/form.js";
 import DialogYesNo from "@/components/ui/dialog/DialogYesNo.vue";
 import {Portfolios} from "@/services/database.js";
+import {delay} from "@/utils/utils.js";
 
 export default {
   name: "PortfolioForm",
@@ -50,7 +51,11 @@ export default {
 
       const dbPortfolio = new Portfolios();
 
+      this.isLoading = true;
+
       await dbPortfolio.deletePortfolio(this.portfolio.id);
+
+      this.isLoading = false;
     }
   },
   mounted() {
@@ -91,6 +96,8 @@ export default {
           color="orange-darken-2"
           icon="mdi-wrench"
           @click="changeIsDisabled"
+          :loading="isLoading"
+          :disabled="isLoading"
       ></v-btn>
 
       <!--Удалить портфель-->
@@ -100,6 +107,7 @@ export default {
           icon-activator="mdi-minus-circle"
           title-dialog="Delete"
           color-dialog="error"
+          :is-loading="isLoading"
       >
         <template #text>
           Are you sure you want to delete?
@@ -121,12 +129,12 @@ export default {
     <!--Изменить название портфеля-->
     <template v-if="!isDisabled">
       <v-btn
-          :loading="isLoading"
-          :disabled="isLoading"
           class="ml-2 mt-1"
           color="primary"
           icon="mdi-checkbox-marked-circle"
           @click="changePortfolioName"
+          :loading="isLoading"
+          :disabled="isLoading"
       ></v-btn>
 
       <v-btn
@@ -134,6 +142,8 @@ export default {
           color="red"
           icon="mdi-cancel"
           @click="cancelChangePortfolioName"
+          :loading="isLoading"
+          :disabled="isLoading"
       ></v-btn>
     </template>
   </v-form>

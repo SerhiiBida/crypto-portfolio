@@ -6,7 +6,8 @@ export default {
     colorActivator: String,
     iconActivator: String,
     titleDialog: String,
-    colorDialog: String
+    colorDialog: String,
+    isLoading: Boolean
   }
 }
 </script>
@@ -21,6 +22,8 @@ export default {
             :class="classActivator"
             :color="colorActivator"
             :icon="iconActivator"
+            :loading="isLoading"
+            :disabled="isLoading"
         ></v-btn>
       </slot>
     </template>

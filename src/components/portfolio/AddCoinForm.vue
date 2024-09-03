@@ -1,6 +1,6 @@
 <script>
 import AutocompleteWithImg from "@/components/ui/autocomplete/AutocompleteWithImg.vue";
-import {Coins, Portfolios} from "@/services/database.js";
+import {Coins, CoinsInPortfolios, Portfolios} from "@/services/database.js";
 
 export default {
   name: "AddCoinsForm",
@@ -39,13 +39,15 @@ export default {
       const valid = await this.validateForm();
 
       if (valid) {
-        const portfolio = new Portfolios();
+        const coinsInPortfolios = new CoinsInPortfolios();
 
         const portfolioId = this.$route.params.id;
 
         this.isLoading = true;
 
-        await portfolio.addCoinInPortfolio(portfolioId, this.form);
+        // console.log(typeof this.form.coinsAmount)
+
+        await coinsInPortfolios.addCoinInPortfolio(portfolioId, this.form);
 
         this.isLoading = false;
 

@@ -2,24 +2,64 @@ import {
     doc, setDoc, onSnapshot,
     collection, query, where,
     addDoc, updateDoc, deleteDoc,
-    getDocs, increment
+    getDocs, writeBatch
 } from "firebase/firestore";
 
 import {db, pinia} from "@/main.js";
 import {usePortfoliosStore} from "@/stores/portfolios.js";
 import {useUserStore} from "@/stores/auth.js";
-import {delay} from "@/utils/utils.js";
 
-export default class User {
-    #db;
 
+class BasicFirestore {
     constructor() {
-        this.#db = db;
+        this._db = db;
+    }
+
+    get db() {
+        return this._db;
+    }
+
+    // Пакетное удаление(запросы выполняться группой)
+    async batchDeletion(snapshot) {
+        const docs = snapshot.docs;
+
+        let batch = writeBatch(this.db);
+
+        let count = 0;
+
+        for (let i = 0; i < docs.length; i++) {
+            batch.delete(docs[i].ref);
+
+            count++;
+
+            // Конец
+            if (i === docs.length - 1) {
+                await batch.commit();
+
+                break;
+            }
+
+            //  Не больше 10 запросов в пакете
+            if (count === 10) {
+                await batch.commit();
+
+                batch = writeBatch(this.db);
+
+                count = 0;
+            }
+        }
+    }
+}
+
+
+export default class User extends BasicFirestore {
+    constructor() {
+        super();
     }
 
     async addUserRole(user, isAdmin = false) {
         try {
-            await setDoc(doc(this.#db, "users", user.uid), {
+            await setDoc(doc(this.db, "users", user.uid), {
                 email: user.email,
                 is_admin: isAdmin
             });
@@ -29,7 +69,7 @@ export default class User {
     }
 
     listenerUserRole(userId, userStore) {
-        const userRef = doc(this.#db, "users", userId);
+        const userRef = doc(this.db, "users", userId);
 
         return onSnapshot(userRef, (doc) => {
             const data = doc.data();
@@ -46,20 +86,58 @@ export default class User {
 }
 
 
-export class Portfolios {
-    #db;
+export class CoinsInPortfolios extends BasicFirestore {
+    constructor() {
+        super();
+    }
+
+    async addCoinInPortfolio(portfolioId, {selectedCoin: coinId, coinsAmount, moneyAmount}) {
+        try {
+            await addDoc(collection(this.db, "coins_in_portfolios"), {
+                portfolio_id: portfolioId,
+                coin_id: coinId,
+                coins_amount: coinsAmount,
+                money_amount: moneyAmount,
+                date: new Date()
+            });
+        } catch (error) {
+            console.log(`Error, addCoinInPortfolio: ${error}`);
+        }
+    }
+
+    async deleteCoinsInPortfolio(portfolioId) {
+        try {
+            const coinsInPortfolioRef = query(
+                collection(this.db, "coins_in_portfolios"),
+                where("portfolio_id", "==", portfolioId)
+            );
+
+            const coinsInPortfolioSnapshot = await getDocs(coinsInPortfolioRef);
+
+            await super.batchDeletion(coinsInPortfolioSnapshot);
+
+        } catch (error) {
+            console.log(`Error, deleteCoinsInPortfolio: ${error}`);
+        }
+    }
+}
+
+
+export class Portfolios extends BasicFirestore {
     #portfoliosStore;
     #userStore;
+    #coinsInPortfolios;
 
     constructor() {
-        this.#db = db;
+        super();
         this.#portfoliosStore = usePortfoliosStore(pinia);
         this.#userStore = useUserStore(pinia);
+        this.#coinsInPortfolios = new CoinsInPortfolios();
     }
 
     listenerUserPortfolios(userId) {
         const portfoliosRef = query(
-            collection(this.#db, "portfolios"),
+            collection(this.db, "portfolios"),
             where("user_id", "==", userId)
         );
 
@@ -84,7 +162,7 @@ export class Portfolios {
         const userId = this.#userStore.getUserId;
 
         try {
-            await addDoc(collection(this.#db, "portfolios"), {
+            await addDoc(collection(this.db, "portfolios"), {
                 user_id: userId,
                 name,
             });
@@ -95,7 +173,7 @@ export class Portfolios {
 
     async updatePortfolioName(portfolioId, name) {
         try {
-            await updateDoc(doc(this.#db, "portfolios", portfolioId), {
+            await updateDoc(doc(this.db, "portfolios", portfolioId), {
                 name: name
             });
         } catch (error) {
@@ -105,7 +183,12 @@ export class Portfolios {
 
     async deletePortfolio(portfolioId) {
         try {
-            await deleteDoc(doc(this.#db, "portfolios", portfolioId));
+            // Удаляем портфель
+            await deleteDoc(doc(this.db, "portfolios", portfolioId));
+
+            // Удаляем все связанные монеты с ним
+            await this.#coinsInPortfolios.deleteCoinsInPortfolio(portfolioId);
+
         } catch (error) {
             console.log(`Error, deletePortfolio: ${error}`);
         }
@@ -114,36 +197,17 @@ export class Portfolios {
     listenerOff(listenerPortfolios) {
         return listenerPortfolios ? listenerPortfolios() : null;
     }
-
-    async addCoinInPortfolio(portfolioId, {selectedCoin: coinId, coinsAmount, moneyAmount}) {
-        try {
-            await addDoc(collection(this.#db, "coins_in_portfolios"), {
-                portfolio_id: portfolioId,
-                coin_id: coinId,
-                coins_amount: coinsAmount,
-                money_amount: moneyAmount,
-                date: new Date()
-            });
-        } catch (error) {
-            console.log(`Error, addCoinInPortfolio: ${error}`);
-        }
-
-        // Не чаще 1 раза в секунду
-        await delay(1000);
-    }
 }
 
 
-export class Coins {
-    #db;
-
+export class Coins extends BasicFirestore {
     constructor() {
-        this.#db = db;
+        super()
     }
 
     async getCoins() {
         try {
-            const coinsSnapshot = await getDocs(collection(this.#db, "coins"));
+            const coinsSnapshot = await getDocs(collection(this.db, "coins"));
 
             const coins = [];
 
