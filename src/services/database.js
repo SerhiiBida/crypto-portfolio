@@ -114,3 +114,20 @@ export class Portfolios {
         return listenerPortfolios ? listenerPortfolios() : null;
     }
 }
+
+
+export class Coins {
+    #db;
+
+    constructor() {
+        this.#db = db;
+    }
+
+    async getCoins() {
+        try {
+
+        } catch (error) {
+            console.log(`Error, getCoins: ${error}`);
+        }
+    }
+}

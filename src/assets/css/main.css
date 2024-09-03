@@ -112,10 +112,10 @@
   text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.add-coin-form-select-coin .v-list-item {
+.autocomplete-with-img .v-list-item {
   padding: 0;
 }
-.add-coin-form-select-coin .v-list-item .v-list-item__prepend img {
+.autocomplete-with-img .v-list-item .v-list-item__prepend img {
   width: 24px;
   height: 24px;
 }

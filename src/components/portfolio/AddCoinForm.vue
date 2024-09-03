@@ -1,6 +1,9 @@
 <script>
+import AutocompleteWithImg from "@/components/ui/autocomplete/AutocompleteWithImg.vue";
+
 export default {
   name: "AddCoinsForm",
+  components: {AutocompleteWithImg},
   data() {
     return {
       availableCoins: [
@@ -14,12 +17,37 @@ export default {
           name: "Ethereum",
           image: "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628"
         }
-      ]
+      ],
+      form: {
+        selectedCoin: "",
+        coinsAmount: 0,
+        moneyAmount: 0
+      },
+      selectCoinRules: [
+        v => !!v || "Be sure to select a coin"
+      ],
+      coinsAmountRules: [
+        v => !!v || "Cannot be equal to 0",
+        v => v < 0 || "Can't be negative"
+      ],
+      moneyAmountRules: [
+        v => !!v || "Cannot be equal to 0",
+        v => v < 0 || "Can't be negative"
+      ],
     }
   },
   methods: {
-    addCoins() {
+    async validateForm() {
+      const {valid} = await this.$refs.form.validate();
 
+      return valid;
+    },
+    addCoins() {
+      const valid = await validateForm();
+
+      if (valid) {
+
+      }
     }
   }
 }
@@ -36,55 +64,37 @@ export default {
     <p class="add-coin-form-title text-h5 text-center font-weight-medium text-blue-accent-3 mb-4">
       Add a coin
     </p>
-    <v-autocomplete
-        v-if="availableCoins.length > 0"
-        label="Coins"
+
+    <!--Выбор монеты-->
+    <AutocompleteWithImg
+        v-model="form.selectedCoin"
         :items="availableCoins"
         item-title="name"
         item-value="id"
-        variant="solo"
-        class="add-coin-form-select-coin mb-2"
-    >
-      <!--Картинка на элементе-->
-      <template v-slot:item="{ props, item }">
-        <v-list-item
-            v-bind="props"
-            :prepend-avatar="item.raw.image"
-            :title="item.raw.name"
-        ></v-list-item>
-      </template>
-
-      <!-- Настройка отображения выбранного элемента -->
-      <template v-slot:selection="{ item, index }">
-        <v-list-item
-            :title="item.raw.name"
-        >
-          <template #prepend>
-            <img
-                :src="item.raw.image"
-                alt="coin"
-                class="mr-1"
-            />
-          </template>
-        </v-list-item>
-      </template>
-    </v-autocomplete>
+        :rules="selectCoinRules"
+    />
 
     <!--Количество монет-->
     <v-text-field
+        v-model="form.coinsAmount"
         type="number"
         label="Number of coins"
+        :rules="coinsAmountRules"
         variant="solo"
         class="add-coin-form-input-amount-coins mb-2"
+        minlength="0"
     >
     </v-text-field>
 
     <!--Количество денег потраченных-->
     <v-text-field
+        v-model="form.moneyAmount"
         type="number"
         label="Investments, $"
+        :rules="moneyAmountRules"
         variant="solo"
         class="add-coin-form-input-amount-money mb-2"
+        minlength="0"
     >
     </v-text-field>
 
