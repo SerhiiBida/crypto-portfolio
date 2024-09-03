@@ -28,11 +28,11 @@ export default {
       ],
       coinsAmountRules: [
         v => !!v || "Cannot be equal to 0",
-        v => v < 0 || "Can't be negative"
+        v => v > 0 || "Can't be negative"
       ],
       moneyAmountRules: [
         v => !!v || "Cannot be equal to 0",
-        v => v < 0 || "Can't be negative"
+        v => v > 0 || "Can't be negative"
       ],
     }
   },
@@ -42,8 +42,8 @@ export default {
 
       return valid;
     },
-    addCoins() {
-      const valid = await validateForm();
+    async addCoins() {
+      const valid = await this.validateForm();
 
       if (valid) {
 
@@ -82,7 +82,7 @@ export default {
         :rules="coinsAmountRules"
         variant="solo"
         class="add-coin-form-input-amount-coins mb-2"
-        minlength="0"
+        @input="form.coinsAmount = form.coinsAmount < 0 ? 0 : form.coinsAmount"
     >
     </v-text-field>
 
@@ -94,7 +94,7 @@ export default {
         :rules="moneyAmountRules"
         variant="solo"
         class="add-coin-form-input-amount-money mb-2"
-        minlength="0"
+        @input="form.moneyAmount = form.moneyAmount < 0 ? 0 : form.moneyAmount"
     >
     </v-text-field>
 
