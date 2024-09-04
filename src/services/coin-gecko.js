@@ -3,22 +3,29 @@ import axios from "axios";
 import env from "../../env.js";
 
 
-const getOptions = (method = "GET", url) => {
+const getOptions = (method = "GET", url, params = {}) => {
     return {
         method,
         url,
         headers: {
-            "x-rapidapi-key": env.CG_X_RAPIDAPI_KEY,
-            "x-rapidapi-host": env.CG_X_RAPIDAPI_HOST
-        }
+            accept: "application/json",
+            "x-cg-demo-api-key": env.X_CG_DEMO_API_KEY
+        },
+        params: {
+            ...params
+        },
     }
 };
 
-export const getCoinsList = async () => {
-    // Problem: 11-13 thousand coins...
-    const url = "https://coingecko.p.rapidapi.com/coins/list";
+export const getCoinsList = async (coinsId) => {
+    const url = "https://api.coingecko.com/api/v3/coins/markets";
 
-    const options = getOptions(undefined, url);
+    const params = {
+        vs_currency: "usd",
+        ids: coinsId
+    }
+
+    const options = getOptions(undefined, url, params);
 
     try {
         const response = await axios.request(options);
@@ -26,6 +33,6 @@ export const getCoinsList = async () => {
         return response.data;
 
     } catch (error) {
-        console.error(error);
+        console.error(`Error, getCoinsList: ${error}`);
     }
-};
+}

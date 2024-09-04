@@ -92,20 +92,55 @@ export class CoinsInPortfolios extends BasicFirestore {
         super();
     }
 
-    async addCoinInPortfolio(portfolioId, coinId, coinsAmount, moneyAmount) {
+    async addCoinInPortfolio(portfolioId, coinId, coinsAmount, money) {
         try {
             await addDoc(collection(this.db, "coins_in_portfolios"), {
                 portfolio_id: portfolioId,
                 coin_id: coinId,
                 coins_amount: coinsAmount,
-                money_amount: moneyAmount,
+                money: money,
                 date: new Date()
             });
         } catch (error) {
             console.log(`Error, addCoinInPortfolio: ${error}`);
         }
 
-        await delay(1000);
+        await delay(2000);
+    }
+
+    async getSumCoinsInPortfolio(portfolioId) {
+        try {
+            const coinsInPortfolioRef = query(
+                collection(this.db, "coins_in_portfolios"),
+                where("portfolio_id", "==", portfolioId)
+            );
+
+            const coinsInPortfolioSnapshot = await getDocs(coinsInPortfolioRef);
+
+            const coinsInPortfolio = {};
+
+            coinsInPortfolioSnapshot.forEach((doc) => {
+                const data = doc.data();
+
+                const coinId = data.coin_id;
+
+                // Сумма каждого вида монет
+                if (!coinsInPortfolio.hasOwnProperty(coinId)) {
+                    coinsInPortfolio[coinId] = {
+                        totalCoins: 0,
+                        totalMoney: 0
+                    };
+                }
+
+                coinsInPortfolio[coinId].totalCoins += data.coins_amount;
+                coinsInPortfolio[coinId].totalMoney += data.money;
+            });
+
+            return coinsInPortfolio;
+
+        } catch (error) {
+            console.log(`Error, getCoins: ${error}`);
+        }
     }
 
     async deleteCoinsInPortfolio(portfolioId) {

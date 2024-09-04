@@ -13,7 +13,7 @@ export default {
       form: {
         selectedCoin: "",
         coinsAmount: 0,
-        moneyAmount: 0
+        money: 0
       },
       selectCoinRules: [
         v => !!v || "Be sure to select a coin"
@@ -42,7 +42,7 @@ export default {
 
         const coinId = this.form.selectedCoin;
         const coinsAmount = Number(this.form.coinsAmount);
-        const moneyAmount = Number(this.form.moneyAmount);
+        const money = Number(this.form.money);
 
         this.isLoading = true;
 
@@ -50,10 +50,13 @@ export default {
             portfolioId,
             coinId,
             coinsAmount,
-            moneyAmount
+            money
         );
 
         this.isLoading = false;
+
+        // Запрос на обновление портфеля на странице
+        this.$emit("updatePortfolio");
 
         this.$refs.form.reset();
       }
@@ -105,13 +108,13 @@ export default {
 
     <!--Количество денег потраченных-->
     <v-text-field
-        v-model="form.moneyAmount"
+        v-model="form.money"
         type="number"
         label="Investments, $"
         :rules="numberRules"
         variant="solo"
         class="add-coin-form-input-amount-money mb-2"
-        @input="form.moneyAmount = form.moneyAmount < 0 ? 0 : form.moneyAmount"
+        @input="form.money = form.money < 0 ? 0 : form.money"
     >
     </v-text-field>
 
