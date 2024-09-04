@@ -7,6 +7,7 @@ import {getCoinsList} from "@/services/coin-gecko.js";
 
 export default {
   name: "PortfolioView",
+  emits: ["updatePortfolio"],
   components: {
     AddCoinForm,
     PortfolioCoins,
@@ -75,25 +76,22 @@ export default {
 
       // Объединенные данные
       this.readyData = this.getReadyData(realCoinsData, coinsWithPortfolio);
-
-      console.log("Обновлено!")
     },
     async updatePortfolio() {
-      if (this.updateDataTimerId) {
-        // Отмена обновления
-        clearInterval(this.updateDataTimerId);
-      }
+      // Отмена обновления
+      clearInterval(this.updateDataTimerId);
+
+      // Запуск обновления данных раз в 5 минут
+      this.updateDataTimerId = setInterval(this.loadingData, 5 * 60000);
 
       await this.loadingData();
-
-      this.updateDataTimerId = setInterval(this.loadingData, 5 * 60000);
     }
   },
   async mounted() {
-    await this.loadingData();
-
     // Обновление данных раз в 5 минут
     this.updateDataTimerId = setInterval(this.loadingData, 5 * 60000);
+
+    await this.loadingData();
   },
   // При удалении компонента
   unmounted() {
