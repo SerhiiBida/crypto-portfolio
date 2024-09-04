@@ -134,18 +134,10 @@
   opacity: var(--v-medium-emphasis-opacity);
   margin-right: 8px;
 }
-.portfolio-coins .portfolio-coins-table-container .portfolio-coins-table {
-  display: block;
-}
-.portfolio-coins .portfolio-coins-table-container .portfolio-coins-table th {
-  white-space: nowrap;
-}
-.portfolio-coins .portfolio-coins-table-container .portfolio-coins-table div.v-content__wrap {
-  width: 100%;
-}
 .portfolio-coins .portfolio-coins-pagination {
   display: flex;
   justify-content: start;
+  align-items: center;
   gap: 10px;
   padding: 5px 15px 10px 15px;
 }

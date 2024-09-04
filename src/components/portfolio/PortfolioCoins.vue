@@ -183,48 +183,46 @@ export default {
     <v-divider></v-divider>
 
     <!--Таблица-->
+    <v-data-table
+        :headers="headers"
+        :items="getPaginationData"
+        :hide-default-footer="true"
+        class="portfolio-coins-table"
+    >
+      <!--Строки-->
+      <template #item="{ item }">
+        <tr>
+          <td>
+            {{ item.name }}<br>
+            {{ item.symbol }}
+          </td>
+          <td>
+            {{ item.current_price }} $
+          </td>
+          <td>
+            {{ item.price_change_percentage_24h }}
+          </td>
+          <td>
+            Реал. Стоимость<br>
+            Кол. монет
+          </td>
+          <td>
+            Сред.ц.п.
+          </td>
+          <td>
+            Профит/Потеря
+          </td>
+          <td>
+            <v-btn
+                color="error"
+            >
+              Delete
+            </v-btn>
+          </td>
+        </tr>
+      </template>
+    </v-data-table>
 
-    <div class="portfolio-coins-table-container">
-      <v-data-table
-          :headers="headers"
-          :items="getPaginationData"
-          :hide-default-footer="true"
-          class="portfolio-coins-table"
-      >
-        <!--Строки-->
-        <template #item="{ item }">
-          <tr>
-            <td>
-              {{ item.name }}<br>
-              {{ item.symbol }}
-            </td>
-            <td>
-              {{ item.current_price }} $
-            </td>
-            <td>
-              {{ item.price_change_percentage_24h }}
-            </td>
-            <td>
-              Реал. Стоимость<br>
-              Кол. монет
-            </td>
-            <td>
-              Сред.ц.п.
-            </td>
-            <td>
-              Профит/Потеря
-            </td>
-            <td>
-              <v-btn
-                  color="error"
-              >
-                Delete
-              </v-btn>
-            </td>
-          </tr>
-        </template>
-      </v-data-table>
-    </div>
 
     <div class="portfolio-coins-pagination">
       <v-btn
@@ -239,6 +237,9 @@ export default {
       >
         >
       </v-btn>
+      <p>
+        {{ currentPage }} of {{ getAmountPages }} pages
+      </p>
     </div>
   </section>
 </template>
