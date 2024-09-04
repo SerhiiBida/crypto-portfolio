@@ -75,12 +75,20 @@
 .portfolio-view {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 460px auto;
+  grid-template-areas: "line-chart add-coin-form" "portfolio-coins portfolio-coins";
   gap: 15px;
-  height: 100%;
-  max-height: 1080px;
   max-width: 1400px;
   margin: 0 auto;
+}
+.portfolio-view .portfolio-line-chart {
+  grid-area: line-chart;
+}
+.portfolio-view .add-coin-form {
+  grid-area: add-coin-form;
+}
+.portfolio-view .portfolio-coins {
+  grid-area: portfolio-coins;
 }
 
 .portfolio-line-chart {
@@ -91,28 +99,10 @@
   background-color: rgb(var(--v-theme-surface));
 }
 
-.portfolio-coins {
-  max-height: 460px;
-  border-radius: 6px;
-  border-color: rgba(var(--v-border-color), var(--v-border-opacity));
-  border-style: solid;
-  border-width: 1px;
-  background-color: rgb(var(--v-theme-surface));
-}
-.portfolio-coins .portfolio-coins-title-img {
-  width: 1.95em;
-  opacity: var(--v-medium-emphasis-opacity);
-  margin-right: 8px;
-}
-.portfolio-coins .portfolio-coins-pagination {
-  display: flex;
-  justify-content: end;
-  gap: 10px;
-  padding: 10px;
-}
-
 .add-coin-form {
-  max-height: 460px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 15px;
   border-radius: 6px;
   border-color: rgba(var(--v-border-color), var(--v-border-opacity));
@@ -132,12 +122,32 @@
   height: 24px;
 }
 
-.portfolio-pie-chart {
+.portfolio-coins {
   border-radius: 6px;
   border-color: rgba(var(--v-border-color), var(--v-border-opacity));
   border-style: solid;
   border-width: 1px;
   background-color: rgb(var(--v-theme-surface));
+}
+.portfolio-coins .portfolio-coins-title-img {
+  width: 1.95em;
+  opacity: var(--v-medium-emphasis-opacity);
+  margin-right: 8px;
+}
+.portfolio-coins .portfolio-coins-table-container .portfolio-coins-table {
+  display: block;
+}
+.portfolio-coins .portfolio-coins-table-container .portfolio-coins-table th {
+  white-space: nowrap;
+}
+.portfolio-coins .portfolio-coins-table-container .portfolio-coins-table div.v-content__wrap {
+  width: 100%;
+}
+.portfolio-coins .portfolio-coins-pagination {
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+  padding: 5px 15px 10px 15px;
 }
 
 /*# sourceMappingURL=main.css.map */

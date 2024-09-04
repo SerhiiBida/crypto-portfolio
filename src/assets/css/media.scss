@@ -1,42 +1,11 @@
-@media (max-width: 900px) {
+@media (max-width: 700px) {
   .portfolio-view {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas:
-            "line-chart line-chart"
-            "pie-chart add-coin-form"
-            "portfolio-coins portfolio-coins";
-
-    .portfolio-line-chart {
-      grid-area: line-chart;
-    }
-
-    .portfolio-coins {
-      grid-area: portfolio-coins;
-    }
-
-    .add-coin-form {
-      grid-area: add-coin-form;
-    }
-
-    .portfolio-pie-chart {
-      grid-area: pie-chart;
-    }
-  }
-}
-
-@media (max-width: 500px) {
-  .portfolio-view {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(3, auto);
     grid-template-areas:
             "line-chart"
-            "pie-chart"
-            "portfolio-coins"
-            "add-coin-form";
-  }
-
-  .portfolio-coins {
-    max-height: none;
+            "add-coin-form"
+            "portfolio-coins";
+    gap: 10px;
   }
 }
