@@ -4,11 +4,6 @@ export default {
   props: {
     readyData: Array
   },
-  watch: {
-    readyData(newValue) {
-      console.log("Полученные данные:", newValue);
-    }
-  },
   data() {
     return {
       headers: [

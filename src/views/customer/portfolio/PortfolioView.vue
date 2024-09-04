@@ -14,7 +14,8 @@ export default {
   },
   data() {
     return {
-      readyData: []
+      readyData: [],
+      updateDataTimerId: null
     }
   },
   methods: {
@@ -58,21 +59,48 @@ export default {
       // Монеты в портфеле
       const coinsWithPortfolio = await coinsInPortfolios.getSumCoinsInPortfolio(portfolioId);
 
+      if (!coinsWithPortfolio) {
+        return;
+      }
+
       // Список монет для поиска
       const coinsId = this.getKeysObject(coinsWithPortfolio);
 
       // Реальные данные монет
       const realCoinsData = await getCoinsList(coinsId);
 
+      if (!realCoinsData) {
+        return;
+      }
+
       // Объединенные данные
       this.readyData = this.getReadyData(realCoinsData, coinsWithPortfolio);
+
+      console.log("Обновлено!")
     },
     async updatePortfolio() {
+      if (this.updateDataTimerId) {
+        // Отмена обновления
+        clearInterval(this.updateDataTimerId);
+      }
+
       await this.loadingData();
+
+      this.updateDataTimerId = setInterval(this.loadingData, 5 * 60000);
     }
   },
   async mounted() {
     await this.loadingData();
+
+    // Обновление данных раз в 5 минут
+    this.updateDataTimerId = setInterval(this.loadingData, 5 * 60000);
+  },
+  // При удалении компонента
+  unmounted() {
+    if (this.updateDataTimerId) {
+      // Отмена обновления
+      clearInterval(this.updateDataTimerId);
+    }
   }
 }
 </script>

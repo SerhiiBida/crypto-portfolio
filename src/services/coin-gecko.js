@@ -34,5 +34,7 @@ export const getCoinsList = async (coinsId) => {
 
     } catch (error) {
         console.error(`Error, getCoinsList: ${error}`);
+
+        return null;
     }
 }

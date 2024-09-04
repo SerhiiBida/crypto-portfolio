@@ -140,6 +140,8 @@ export class CoinsInPortfolios extends BasicFirestore {
 
         } catch (error) {
             console.log(`Error, getCoins: ${error}`);
+
+            return null;
         }
     }
 
