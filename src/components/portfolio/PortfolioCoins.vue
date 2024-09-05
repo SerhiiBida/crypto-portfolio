@@ -70,10 +70,14 @@ export default {
       return this.readyData;
     },
     getAmountPages() {
+      if (this.amountElements === 0) {
+        return 0;
+      }
+
       return Math.ceil(this.amountElements / this.elementsOnPage);
     },
     getPaginationData() {
-      const end = this.currentPage * this.getAmountPages;
+      const end = this.currentPage * this.elementsOnPage;
 
       const start = end - this.elementsOnPage;
 
@@ -178,7 +182,7 @@ export default {
 
     <!--Пагинация-->
     <div
-        v-if="readyData.length > 0"
+        v-if="getAmountPages > 1"
         class="portfolio-coins-pagination"
     >
       <v-btn

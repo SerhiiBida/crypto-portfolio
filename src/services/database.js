@@ -102,7 +102,7 @@ export class CoinsInPortfolios extends BasicFirestore {
                 date: new Date()
             });
         } catch (error) {
-            console.log(`Error, addCoinInPortfolio: ${error}`);
+            console.log(`Error, addHistoryCoinInPortfolio: ${error}`);
         }
 
         await delay(2000);
@@ -133,27 +133,20 @@ export class CoinsInPortfolios extends BasicFirestore {
             return coinInPortfolio;
 
         } catch (error) {
-            console.log(`Error, getCoins: ${error}`);
+            console.log(`Error, getHistoryCoinInPortfolio: ${error}`);
 
             return null;
         }
     }
 
-    // async deleteHistoryCoinInPortfolio(portfolioId) {
-    //     try {
-    //         const coinsInPortfolioRef = query(
-    //             collection(this.db, "coins_in_portfolios"),
-    //             where("portfolio_id", "==", portfolioId)
-    //         );
-    //
-    //         const coinsInPortfolioSnapshot = await getDocs(coinsInPortfolioRef);
-    //
-    //         await super.batchDeletion(coinsInPortfolioSnapshot);
-    //
-    //     } catch (error) {
-    //         console.log(`Error, deleteCoinsInPortfolio: ${error}`);
-    //     }
-    // }
+    async deleteHistoryCoinInPortfolio(historyCoinId) {
+        try {
+            await deleteDoc(doc(this.db, "coins_in_portfolios", historyCoinId));
+
+        } catch (error) {
+            console.log(`Error, deleteHistoryCoinInPortfolio: ${error}`);
+        }
+    }
 
     async getSumHistoryCoinsInPortfolio(portfolioId) {
         try {
@@ -186,7 +179,7 @@ export class CoinsInPortfolios extends BasicFirestore {
             return coinsInPortfolio;
 
         } catch (error) {
-            console.log(`Error, getCoins: ${error}`);
+            console.log(`Error, getSumHistoryCoinsInPortfolio: ${error}`);
 
             return null;
         }
@@ -204,7 +197,7 @@ export class CoinsInPortfolios extends BasicFirestore {
             await super.batchDeletion(coinsInPortfolioSnapshot);
 
         } catch (error) {
-            console.log(`Error, deleteCoinsInPortfolio: ${error}`);
+            console.log(`Error, deleteAllHistoryCoinsInPortfolio: ${error}`);
         }
     }
 }

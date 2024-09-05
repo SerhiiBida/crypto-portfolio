@@ -1,5 +1,6 @@
 <script>
 import {CoinsInPortfolios} from "@/services/database.js";
+import {delay} from "@/utils/utils.js";
 
 export default {
   name: "ModalDeleteCoins",
@@ -32,7 +33,8 @@ export default {
           sortable: false
         }
       ],
-      data: []
+      data: [],
+      coinsInPortfolios: new CoinsInPortfolios()
     }
   },
   computed: {
@@ -49,16 +51,26 @@ export default {
   },
   methods: {
     async updateData() {
-      const coinsInPortfolios = new CoinsInPortfolios();
-
       const portfolioId = this.$route.params.id;
 
-      this.data = await coinsInPortfolios.getHistoryCoinInPortfolio(portfolioId, this.coinId);
+      this.data = await this.coinsInPortfolios.getHistoryCoinInPortfolio(portfolioId, this.coinId);
     },
-    deleteCoin(historyId) {
+    async deleteHistoryCoin(event, historyId, index) {
+      console.log("+")
+      const button = event.target;
 
+      // Отключаем кнопку
+      button.setAttribute("disabled", "true");
+
+      // Удаляем на сервере
+      await this.coinsInPortfolios.deleteHistoryCoinInPortfolio(historyId);
+
+      await delay(3000);
+
+      // Удаляем на клиенте
+      this.data.splice(index, 1);
     },
-    deleteAll() {
+    deleteAllHistoryCoin() {
 
 
       this.showModal = false;
@@ -98,7 +110,7 @@ export default {
             class="portfolio-coins-table"
         >
           <!--Строки-->
-          <template #item="{ item }">
+          <template #item="{ item, index }">
             <tr>
               <td>
                 {{ item.coinsAmount }}
@@ -112,7 +124,7 @@ export default {
               <td>
                 <v-btn
                     color="error"
-                    @click="deleteCoin(item.id)"
+                    @click="deleteHistoryCoin($event, item.id, index)"
                 >
                   Delete
                 </v-btn>
@@ -129,7 +141,7 @@ export default {
         <v-btn
             class="ms-auto"
             color="error"
-            @click="deleteAll"
+            @click="deleteAllHistoryCoin"
         >
           Delete All
         </v-btn>
