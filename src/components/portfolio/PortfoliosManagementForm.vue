@@ -1,13 +1,13 @@
 <script>
-import PortfolioForm from "@/components/portfolio/PortfolioForm.vue";
+import PortfolioChangeForm from "@/components/portfolio/PortfolioChangeForm.vue";
 import {portfolioForm} from "@/mixins/form.js";
 import {Portfolios} from "@/services/database.js";
 
 export default {
-  name: "PortfoliosForm",
+  name: "PortfoliosManagementForm",
   mixins: [portfolioForm],
   components: {
-    PortfolioForm
+    PortfolioChangeForm
   },
   computed: {
     portfolios() {
@@ -43,7 +43,7 @@ export default {
     <div class="portfolios-form-data d-flex flex-column align-center">
       <template v-if="portfolios.length > 0">
         <template v-for="portfolio in portfolios" :key="portfolio.id">
-          <PortfolioForm :portfolio="portfolio"/>
+          <PortfolioChangeForm :portfolio="portfolio"/>
         </template>
       </template>
     </div>

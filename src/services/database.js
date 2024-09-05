@@ -108,6 +108,37 @@ export class CoinsInPortfolios extends BasicFirestore {
         await delay(2000);
     }
 
+    async getCoinInPortfolio(portfolioId, coinId) {
+        try {
+            const coinInPortfolioRef = query(
+                collection(this.db, "coins_in_portfolios"),
+                where("portfolio_id", "==", portfolioId),
+                where("coin_id", "==", coinId)
+            );
+            const coinInPortfolioSnapshot = await getDocs(coinInPortfolioRef);
+
+            const coinInPortfolio = [];
+
+            coinInPortfolioSnapshot.forEach((doc) => {
+                const data = doc.data();
+
+                coinInPortfolio.push({
+                    id: doc.id,
+                    coinsAmount: data.coins_amount,
+                    money: data.money,
+                    date: data.date.toDate().toLocaleString()
+                });
+            });
+
+            return coinInPortfolio;
+
+        } catch (error) {
+            console.log(`Error, getCoins: ${error}`);
+
+            return null;
+        }
+    }
+
     async getSumCoinsInPortfolio(portfolioId) {
         try {
             const coinsInPortfolioRef = query(
@@ -145,7 +176,7 @@ export class CoinsInPortfolios extends BasicFirestore {
         }
     }
 
-    async deleteCoinsInPortfolio(portfolioId) {
+    async deleteAllCoinsInPortfolio(portfolioId) {
         try {
             const coinsInPortfolioRef = query(
                 collection(this.db, "coins_in_portfolios"),
@@ -227,7 +258,7 @@ export class Portfolios extends BasicFirestore {
             await deleteDoc(doc(this.db, "portfolios", portfolioId));
 
             // Удаляем все связанные монеты с ним
-            await this.#coinsInPortfolios.deleteCoinsInPortfolio(portfolioId);
+            await this.#coinsInPortfolios.deleteAllCoinsInPortfolio(portfolioId);
 
         } catch (error) {
             console.log(`Error, deletePortfolio: ${error}`);

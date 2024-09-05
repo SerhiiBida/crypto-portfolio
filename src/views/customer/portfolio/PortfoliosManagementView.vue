@@ -1,14 +1,16 @@
 <script>
-import PortfoliosForm from "@/components/portfolio/PortfoliosForm.vue";
+import PortfoliosManagementForm from "@/components/portfolio/PortfoliosManagementForm.vue";
 
 export default {
   name: "PortfoliosManagementView",
-  components: {PortfoliosForm}
+  components: {
+    PortfoliosManagementForm
+  }
 }
 </script>
 
 <template>
   <section class="portfolios-management-view">
-    <PortfoliosForm/>
+    <PortfoliosManagementForm/>
   </section>
 </template>

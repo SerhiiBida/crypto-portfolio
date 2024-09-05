@@ -5,7 +5,7 @@ import {Portfolios} from "@/services/database.js";
 import {delay} from "@/utils/utils.js";
 
 export default {
-  name: "PortfolioForm",
+  name: "PortfolioChangeForm",
   mixins: [portfolioForm],
   components: {
     DialogYesNo

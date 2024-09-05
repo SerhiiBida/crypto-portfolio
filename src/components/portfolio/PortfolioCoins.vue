@@ -1,6 +1,9 @@
 <script>
+import ModalDeleteCoins from "@/components/portfolio/ModalDeleteCoins.vue";
+
 export default {
   name: "PortfolioCoins",
+  components: {ModalDeleteCoins},
   props: {
     readyData: Array
   },
@@ -51,7 +54,11 @@ export default {
       ],
       // Пагинация
       elementsOnPage: 2,
-      currentPage: 1
+      currentPage: 1,
+      // Модальное окно удаления
+      isShowModalDeleteCoins: false,
+      coinId: null,
+      coinName: "..."
     }
   },
   computed: {
@@ -87,6 +94,16 @@ export default {
     nextPage() {
       this.currentPage++;
     },
+    // Модальное окно удаления
+    showModalDeleteCoins(coinId, coinName) {
+      this.isShowModalDeleteCoins = true;
+
+      this.coinId = coinId;
+      this.coinName = coinName;
+    },
+    resetCoinId() {
+      this.coinId = null;
+    }
   }
 }
 </script>
@@ -142,6 +159,7 @@ export default {
           <td>
             <v-btn
                 color="error"
+                @click="showModalDeleteCoins(item.id, item.name)"
             >
               Delete
             </v-btn>
@@ -150,7 +168,15 @@ export default {
       </template>
     </v-data-table>
 
+    <!--Модальное окно для удаления монет из портфеля-->
+    <ModalDeleteCoins
+        v-model="isShowModalDeleteCoins"
+        :coin-id="coinId"
+        :coin-name="coinName"
+        @reset-coin-id="resetCoinId"
+    />
 
+    <!--Пагинация-->
     <div
         v-if="readyData.length > 0"
         class="portfolio-coins-pagination"
