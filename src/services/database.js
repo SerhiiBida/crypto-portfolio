@@ -92,7 +92,7 @@ export class CoinsInPortfolios extends BasicFirestore {
         super();
     }
 
-    async addCoinInPortfolio(portfolioId, coinId, coinsAmount, money) {
+    async addHistoryCoinInPortfolio(portfolioId, coinId, coinsAmount, money) {
         try {
             await addDoc(collection(this.db, "coins_in_portfolios"), {
                 portfolio_id: portfolioId,
@@ -108,7 +108,7 @@ export class CoinsInPortfolios extends BasicFirestore {
         await delay(2000);
     }
 
-    async getCoinInPortfolio(portfolioId, coinId) {
+    async getHistoryCoinInPortfolio(portfolioId, coinId) {
         try {
             const coinInPortfolioRef = query(
                 collection(this.db, "coins_in_portfolios"),
@@ -139,7 +139,23 @@ export class CoinsInPortfolios extends BasicFirestore {
         }
     }
 
-    async getSumCoinsInPortfolio(portfolioId) {
+    // async deleteHistoryCoinInPortfolio(portfolioId) {
+    //     try {
+    //         const coinsInPortfolioRef = query(
+    //             collection(this.db, "coins_in_portfolios"),
+    //             where("portfolio_id", "==", portfolioId)
+    //         );
+    //
+    //         const coinsInPortfolioSnapshot = await getDocs(coinsInPortfolioRef);
+    //
+    //         await super.batchDeletion(coinsInPortfolioSnapshot);
+    //
+    //     } catch (error) {
+    //         console.log(`Error, deleteCoinsInPortfolio: ${error}`);
+    //     }
+    // }
+
+    async getSumHistoryCoinsInPortfolio(portfolioId) {
         try {
             const coinsInPortfolioRef = query(
                 collection(this.db, "coins_in_portfolios"),
@@ -176,7 +192,7 @@ export class CoinsInPortfolios extends BasicFirestore {
         }
     }
 
-    async deleteAllCoinsInPortfolio(portfolioId) {
+    async deleteAllHistoryCoinsInPortfolio(portfolioId) {
         try {
             const coinsInPortfolioRef = query(
                 collection(this.db, "coins_in_portfolios"),
@@ -258,7 +274,7 @@ export class Portfolios extends BasicFirestore {
             await deleteDoc(doc(this.db, "portfolios", portfolioId));
 
             // Удаляем все связанные монеты с ним
-            await this.#coinsInPortfolios.deleteAllCoinsInPortfolio(portfolioId);
+            await this.#coinsInPortfolios.deleteAllHistoryCoinsInPortfolio(portfolioId);
 
         } catch (error) {
             console.log(`Error, deletePortfolio: ${error}`);

@@ -58,7 +58,7 @@ export default {
       const portfolioId = this.$route.params.id;
 
       // Монеты в портфеле
-      const coinsWithPortfolio = await coinsInPortfolios.getSumCoinsInPortfolio(portfolioId);
+      const coinsWithPortfolio = await coinsInPortfolios.getSumHistoryCoinsInPortfolio(portfolioId);
 
       if (!coinsWithPortfolio) {
         return;

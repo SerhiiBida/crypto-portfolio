@@ -53,7 +53,7 @@ export default {
 
       const portfolioId = this.$route.params.id;
 
-      this.data = await coinsInPortfolios.getCoinInPortfolio(portfolioId, this.coinId);
+      this.data = await coinsInPortfolios.getHistoryCoinInPortfolio(portfolioId, this.coinId);
     },
     deleteCoin(historyId) {
 

@@ -46,7 +46,7 @@ export default {
 
         this.isLoading = true;
 
-        await coinsInPortfolios.addCoinInPortfolio(
+        await coinsInPortfolios.addHistoryCoinInPortfolio(
             portfolioId,
             coinId,
             coinsAmount,
