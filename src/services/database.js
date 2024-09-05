@@ -157,26 +157,31 @@ export class CoinsInPortfolios extends BasicFirestore {
 
             const coinsInPortfolioSnapshot = await getDocs(coinsInPortfolioRef);
 
-            const coinsInPortfolio = {};
+            if (!coinsInPortfolioSnapshot.empty) {
+                const coinsInPortfolio = {};
 
-            coinsInPortfolioSnapshot.forEach((doc) => {
-                const data = doc.data();
+                coinsInPortfolioSnapshot.forEach((doc) => {
+                    const data = doc.data();
 
-                const coinId = data.coin_id;
+                    const coinId = data.coin_id;
 
-                // Сумма каждого вида монет
-                if (!coinsInPortfolio.hasOwnProperty(coinId)) {
-                    coinsInPortfolio[coinId] = {
-                        totalCoins: 0,
-                        totalMoney: 0
-                    };
-                }
+                    // Сумма каждого вида монет
+                    if (!coinsInPortfolio.hasOwnProperty(coinId)) {
+                        coinsInPortfolio[coinId] = {
+                            totalCoins: 0,
+                            totalMoney: 0
+                        };
+                    }
 
-                coinsInPortfolio[coinId].totalCoins += data.coins_amount;
-                coinsInPortfolio[coinId].totalMoney += data.money;
-            });
+                    coinsInPortfolio[coinId].totalCoins += data.coins_amount;
+                    coinsInPortfolio[coinId].totalMoney += data.money;
+                });
 
-            return coinsInPortfolio;
+                return coinsInPortfolio;
+
+            } else {
+                return null;
+            }
 
         } catch (error) {
             console.log(`Error, getSumHistoryCoinsInPortfolio: ${error}`);

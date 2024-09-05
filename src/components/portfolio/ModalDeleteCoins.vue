@@ -56,16 +56,22 @@ export default {
       this.data = await this.coinsInPortfolios.getHistoryCoinInPortfolio(portfolioId, this.coinId);
     },
     async deleteHistoryCoin(event, historyId, index) {
-      console.log("+")
-      const button = event.target;
+      const targetElement = event.target;
 
-      // Отключаем кнопку
-      button.setAttribute("disabled", "true");
+      let button;
+
+      // Находим кнопку для отключения
+      if (targetElement.getAttribute("type") === "button") {
+        button = targetElement;
+      } else {
+        // Поиск вверх
+        button = targetElement.closest("[type='button']");
+      }
+
+      button.disabled = true;
 
       // Удаляем на сервере
       await this.coinsInPortfolios.deleteHistoryCoinInPortfolio(historyId);
-
-      await delay(3000);
 
       // Удаляем на клиенте
       this.data.splice(index, 1);

@@ -53,7 +53,7 @@ export default {
         },
       ],
       // Пагинация
-      elementsOnPage: 2,
+      elementsOnPage: 3,
       currentPage: 1,
       // Модальное окно удаления
       isShowModalDeleteCoins: false,
