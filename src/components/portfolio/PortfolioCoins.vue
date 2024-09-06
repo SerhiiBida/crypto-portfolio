@@ -1,42 +1,19 @@
 <script>
 import ModalDeleteCoins from "@/components/portfolio/ModalDeleteCoins.vue";
+import {pagination} from "@/mixins/pagination.js";
+import {priceMovement} from "@/directives/directives.js";
 
 export default {
   name: "PortfolioCoins",
+  mixins: [pagination],
+  emits: ["updatePortfolio"],
   components: {ModalDeleteCoins},
   props: {
     readyData: Array
   },
   directives: {
     // Движение цены(визуально)
-    priceMovement: {
-      mounted(el, binding) {
-        const value = binding.value.toString();
-        const classList = el.classList;
-
-        if (value.startsWith("-")) {
-          classList.add("downward-price-movement");
-
-        } else {
-          classList.add("upward-price-movement");
-        }
-      },
-      updated(el, binding) {
-        const value = binding.value.toString();
-        const classList = el.classList;
-
-        // Обнуление
-        classList.remove("upward-price-movement");
-        classList.remove("downward-price-movement");
-
-        if (value.startsWith("-")) {
-          classList.add("downward-price-movement");
-
-        } else {
-          classList.add("upward-price-movement");
-        }
-      }
-    }
+    priceMovement
   },
   data() {
     return {
@@ -83,9 +60,6 @@ export default {
           sortable: false
         },
       ],
-      // Пагинация
-      elementsOnPage: 5,
-      currentPage: 1,
       // Модальное окно удаления
       isShowModalDeleteCoins: false,
       coinId: null,
@@ -93,42 +67,12 @@ export default {
     }
   },
   computed: {
-    // Пагинация
-    amountElements() {
-      return this.readyData.length;
-    },
-    elements() {
+    // Для пагинации
+    getData() {
       return this.readyData;
-    },
-    getAmountPages() {
-      if (this.amountElements === 0) {
-        return 0;
-      }
-
-      return Math.ceil(this.amountElements / this.elementsOnPage);
-    },
-    getPaginationData() {
-      const end = this.currentPage * this.elementsOnPage;
-
-      const start = end - this.elementsOnPage;
-
-      return this.elements.slice(start, end);
-    },
-    checkPrevPage() {
-      return this.currentPage === 1;
-    },
-    checkNextPage() {
-      return this.currentPage === this.getAmountPages;
     }
   },
   methods: {
-    // Пагинация
-    prevPage() {
-      this.currentPage--;
-    },
-    nextPage() {
-      this.currentPage++;
-    },
     // Модальное окно удаления
     showModalDeleteCoins(coinId, coinName) {
       this.isShowModalDeleteCoins = true;

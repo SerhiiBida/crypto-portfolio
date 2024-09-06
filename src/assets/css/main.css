@@ -142,10 +142,11 @@
   gap: 10px;
   padding: 5px 15px 10px 15px;
 }
-.portfolio-coins .upward-price-movement {
+
+.upward-price-movement {
   color: green;
 }
-.portfolio-coins .upward-price-movement:before {
+.upward-price-movement:before {
   content: "▲";
   position: relative;
   right: 1px;
@@ -153,10 +154,11 @@
   font-size: 11px;
   color: green;
 }
-.portfolio-coins .downward-price-movement {
+
+.downward-price-movement {
   color: red;
 }
-.portfolio-coins .downward-price-movement:before {
+.downward-price-movement:before {
   content: "▼";
   position: relative;
   right: 1px;
