@@ -210,3 +210,14 @@
     color: red;
   }
 }
+
+// ModalDeleteCoins.vue
+.modal-delete-coins {
+  .modal-delete-coins-pagination {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 15px 0 0;
+  }
+}

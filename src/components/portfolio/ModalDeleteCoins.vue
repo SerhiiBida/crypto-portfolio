@@ -1,9 +1,10 @@
 <script>
 import {CoinsInPortfolios} from "@/services/database.js";
-import {delay} from "@/utils/utils.js";
+import {pagination} from "@/mixins/pagination.js";
 
 export default {
   name: "ModalDeleteCoins",
+  mixins: [pagination],
   props: {
     modelValue: Boolean,
     coinId: [String, null],
@@ -52,6 +53,10 @@ export default {
           this.$emit("resetCoinId");
         }
       }
+    },
+    // Пагинация
+    getData() {
+      return this.data;
     }
   },
   methods: {
@@ -135,9 +140,9 @@ export default {
         <!--Таблица-->
         <v-data-table
             :headers="headers"
-            :items="data"
+            :items="getPaginationData"
             :hide-default-footer="true"
-            class="portfolio-coins-table"
+            class="modal-delete-coins-table"
         >
           <!--Строки-->
           <template #item="{ item, index }">
@@ -162,6 +167,28 @@ export default {
             </tr>
           </template>
         </v-data-table>
+
+        <!--Пагинация-->
+        <div
+            v-if="getAmountPages > 1"
+            class="modal-delete-coins-pagination"
+        >
+          <v-btn
+              @click="prevPage"
+              :disabled="checkPrevPage"
+          >
+            <
+          </v-btn>
+          <v-btn
+              @click="nextPage"
+              :disabled="checkNextPage"
+          >
+            >
+          </v-btn>
+          <p>
+            {{ currentPage }} of {{ getAmountPages }} pages
+          </p>
+        </div>
       </v-card-text>
 
       <v-card-actions>
