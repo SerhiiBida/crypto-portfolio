@@ -10,7 +10,7 @@ export default {
         name: "login"
       });
     }
-  }
+  },
 }
 </script>
 

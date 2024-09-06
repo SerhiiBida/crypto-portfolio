@@ -4,6 +4,7 @@ import {useUserStore} from "@/stores/auth.js";
 import {pinia} from "@/main.js";
 import AuthFirebase from "@/services/auth.js";
 import {usePortfoliosStore} from "@/stores/portfolios.js";
+import {Portfolios} from "@/services/database.js";
 
 
 const router = createRouter({
@@ -81,10 +82,18 @@ router.beforeEach(async (to, from) => {
     }
 
     // Принадлежит ли этот портфель пользователю
-    if (to.name === "portfolio" && !portfolioStore.includesId(to.params.id)) {
-        return {
-            name: "not-found"
-        };
+    if (to.name === "portfolio") {
+        const portfolio = new Portfolios();
+
+        const portfolioId = to.params.id;
+
+        const checkUser = await portfolio.checkUserOwnPortfolio(portfolioId);
+
+        if (!checkUser) {
+            return {
+                name: "not-found"
+            };
+        }
     }
 });
 

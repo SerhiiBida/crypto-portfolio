@@ -2,7 +2,7 @@ import {
     doc, setDoc, onSnapshot,
     collection, query, where,
     addDoc, updateDoc, deleteDoc,
-    getDocs, writeBatch
+    getDocs, writeBatch, getDoc
 } from "firebase/firestore";
 
 import {db, pinia} from "@/main.js";
@@ -266,6 +266,29 @@ export class Portfolios extends BasicFirestore {
         });
     }
 
+    async checkUserOwnPortfolio(portfolioId) {
+        try {
+            const portfolioRef = doc(this.db, "portfolios", portfolioId);
+
+            const portfolioSnapshot = await getDoc(portfolioRef);
+
+            if (portfolioSnapshot.exists()) {
+                const userId = this.#userStore.getUserId;
+                const ownerId = portfolioSnapshot.data().user_id;
+
+                return userId === ownerId;
+
+            } else {
+                return false
+            }
+
+        } catch (error) {
+            console.log(`Error, checkUserOwnPortfolio: ${error}`);
+
+            return false;
+        }
+    }
+
     async addPortfolio(name) {
         const userId = this.#userStore.getUserId;
 
@@ -333,6 +356,49 @@ export class Coins extends BasicFirestore {
 
         } catch (error) {
             console.log(`Error, getCoins: ${error}`);
+        }
+    }
+
+    // Ручное заполнение монетами из Json
+    async addCoinsFromJson(jsonData) {
+        try {
+            const coins = jsonData.coins;
+
+            const coinsCollection = collection(db, "coins");
+
+            let batch = writeBatch(this.db);
+
+            let count = 0;
+
+            for (let i = 0; i < coins.length; i++) {
+                const coinRef = doc(coinsCollection, coins[i].id);
+
+                batch.set(coinRef, {
+                    name: coins[i].name,
+                    symbol: coins[i].symbol,
+                    image: coins[i].image
+                });
+
+                count++;
+
+                // Конец
+                if (i === coins.length - 1) {
+                    await batch.commit();
+
+                    break;
+                }
+
+                //  Не больше 10 запросов в пакете
+                if (count === 10) {
+                    await batch.commit();
+
+                    batch = writeBatch(this.db);
+
+                    count = 0;
+                }
+            }
+        } catch (error) {
+            console.log(`Error, addCoinsFromJson: ${error}`);
         }
     }
 }
