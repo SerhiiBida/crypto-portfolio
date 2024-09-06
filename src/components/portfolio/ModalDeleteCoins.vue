@@ -169,6 +169,7 @@ export default {
 
         <!--Кнопки-->
         <v-btn
+            v-if="data.length > 1"
             class="ms-auto"
             color="error"
             :disabled="isDisabledDeleteAll"

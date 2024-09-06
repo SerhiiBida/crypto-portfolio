@@ -61,6 +61,8 @@ export default {
       const coinsWithPortfolio = await coinsInPortfolios.getSumHistoryCoinsInPortfolio(portfolioId);
 
       if (!coinsWithPortfolio) {
+        this.readyData = [];
+
         return;
       }
 
