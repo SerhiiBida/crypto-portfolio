@@ -5,6 +5,7 @@ export default {
     classActivator: String,
     colorActivator: String,
     iconActivator: String,
+    textActivator: String,
     titleDialog: String,
     colorDialog: String,
     isLoading: Boolean
@@ -18,13 +19,25 @@ export default {
     <template #activator="{ props: activatorProps }">
       <slot name="activator" :activator-props="activatorProps">
         <v-btn
+            v-if="iconActivator"
             v-bind="activatorProps"
             :class="classActivator"
             :color="colorActivator"
             :icon="iconActivator"
-            :loading="isLoading"
-            :disabled="isLoading"
-        ></v-btn>
+            :loading="isLoading ? isLoading : false"
+            :disabled="isLoading ? isLoading : false"
+        >
+        </v-btn>
+        <v-btn
+            v-else
+            v-bind="activatorProps"
+            :class="classActivator"
+            :color="colorActivator"
+            :loading="isLoading ? isLoading : false"
+            :disabled="isLoading ? isLoading : false"
+        >
+          {{ textActivator }}
+        </v-btn>
       </slot>
     </template>
 
