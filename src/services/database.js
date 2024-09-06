@@ -119,16 +119,18 @@ export class CoinsInPortfolios extends BasicFirestore {
 
             const coinInPortfolio = [];
 
-            coinInPortfolioSnapshot.forEach((doc) => {
-                const data = doc.data();
+            if (!coinInPortfolioSnapshot.empty) {
+                coinInPortfolioSnapshot.forEach((doc) => {
+                    const data = doc.data();
 
-                coinInPortfolio.push({
-                    id: doc.id,
-                    coinsAmount: data.coins_amount,
-                    money: data.money,
-                    date: data.date.toDate().toLocaleString()
+                    coinInPortfolio.push({
+                        id: doc.id,
+                        coinsAmount: data.coins_amount,
+                        money: data.money,
+                        date: data.date.toDate().toLocaleString()
+                    });
                 });
-            });
+            }
 
             return coinInPortfolio;
 
@@ -136,15 +138,6 @@ export class CoinsInPortfolios extends BasicFirestore {
             console.log(`Error, getHistoryCoinInPortfolio: ${error}`);
 
             return null;
-        }
-    }
-
-    async deleteHistoryCoinInPortfolio(historyCoinId) {
-        try {
-            await deleteDoc(doc(this.db, "coins_in_portfolios", historyCoinId));
-
-        } catch (error) {
-            console.log(`Error, deleteHistoryCoinInPortfolio: ${error}`);
         }
     }
 
@@ -190,16 +183,46 @@ export class CoinsInPortfolios extends BasicFirestore {
         }
     }
 
+    async deleteHistoryCoinInPortfolio(historyCoinId) {
+        try {
+            await deleteDoc(doc(this.db, "coins_in_portfolios", historyCoinId));
+
+        } catch (error) {
+            console.log(`Error, deleteHistoryCoinInPortfolio: ${error}`);
+        }
+    }
+
+    async deleteAllHistoryCoinInPortfolio(portfolioId, coinId) {
+        try {
+            const allHistoryCoinInPortfolioRef = query(
+                collection(this.db, "coins_in_portfolios"),
+                where("portfolio_id", "==", portfolioId),
+                where("coin_id", "==", coinId)
+            );
+
+            const allHistoryCoinInPortfolioSnapshot = await getDocs(allHistoryCoinInPortfolioRef);
+
+            if (!allHistoryCoinInPortfolioSnapshot.empty) {
+                await super.batchDeletion(allHistoryCoinInPortfolioSnapshot);
+            }
+
+        } catch (error) {
+            console.log(`Error, deleteAllHistoryCoinInPortfolio: ${error}`);
+        }
+    }
+
     async deleteAllHistoryCoinsInPortfolio(portfolioId) {
         try {
-            const coinsInPortfolioRef = query(
+            const allHistoryCoinsInPortfolioRef = query(
                 collection(this.db, "coins_in_portfolios"),
                 where("portfolio_id", "==", portfolioId)
             );
 
-            const coinsInPortfolioSnapshot = await getDocs(coinsInPortfolioRef);
+            const allHistoryCoinsInPortfolioSnapshot = await getDocs(allHistoryCoinsInPortfolioRef);
 
-            await super.batchDeletion(coinsInPortfolioSnapshot);
+            if (!allHistoryCoinsInPortfolioSnapshot.empty) {
+                await super.batchDeletion(allHistoryCoinsInPortfolioSnapshot);
+            }
 
         } catch (error) {
             console.log(`Error, deleteAllHistoryCoinsInPortfolio: ${error}`);

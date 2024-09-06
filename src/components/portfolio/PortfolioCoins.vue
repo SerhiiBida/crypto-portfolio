@@ -107,6 +107,9 @@ export default {
     },
     resetCoinId() {
       this.coinId = null;
+    },
+    updatePortfolio() {
+      this.$emit("updatePortfolio");
     }
   }
 }
@@ -178,6 +181,7 @@ export default {
         :coin-id="coinId"
         :coin-name="coinName"
         @reset-coin-id="resetCoinId"
+        @update-portfolio="updatePortfolio"
     />
 
     <!--Пагинация-->

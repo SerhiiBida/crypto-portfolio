@@ -34,7 +34,10 @@ export default {
         }
       ],
       data: [],
-      coinsInPortfolios: new CoinsInPortfolios()
+      coinsInPortfolios: new CoinsInPortfolios(),
+      isDisabledDeleteAll: false,
+      // Проверка, было ли удаление
+      isDelete: false
     }
   },
   computed: {
@@ -45,7 +48,9 @@ export default {
       set(value) {
         this.$emit("update:modelValue", value);
 
-        this.$emit("resetCoinId");
+        if (!value) {
+          this.$emit("resetCoinId");
+        }
       }
     }
   },
@@ -56,6 +61,8 @@ export default {
       this.data = await this.coinsInPortfolios.getHistoryCoinInPortfolio(portfolioId, this.coinId);
     },
     async deleteHistoryCoin(event, historyId, index) {
+      this.isDelete = true;
+
       const targetElement = event.target;
 
       let button;
@@ -76,10 +83,19 @@ export default {
       // Удаляем на клиенте
       this.data.splice(index, 1);
     },
-    deleteAllHistoryCoin() {
+    async deleteAllHistoryCoin() {
+      this.isDelete = true;
+      this.isDisabledDeleteAll = true;
 
+      const portfolioId = this.$route.params.id;
 
-      this.showModal = false;
+      // Удаление на клиенте
+      this.data = []
+
+      // Удаление на сервере
+      await this.coinsInPortfolios.deleteAllHistoryCoinInPortfolio(portfolioId, this.coinId);
+
+      this.isDisabledDeleteAll = false;
     },
     closeModal() {
       this.showModal = false;
@@ -90,6 +106,14 @@ export default {
       if (newValue) {
         // Отображаем данные, если поступило значение
         await this.updateData();
+      }
+    },
+    async showModal(newValue) {
+      if (!newValue && this.isDelete) {
+        // Обновляем данные портфеля
+        this.$emit("updatePortfolio");
+
+        this.isDelete = false;
       }
     }
   }
@@ -147,6 +171,7 @@ export default {
         <v-btn
             class="ms-auto"
             color="error"
+            :disabled="isDisabledDeleteAll"
             @click="deleteAllHistoryCoin"
         >
           Delete All
