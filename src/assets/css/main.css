@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import "base.css";
 .header-bar .header-bar-title {
   cursor: pointer;
@@ -140,6 +141,28 @@
   align-items: center;
   gap: 10px;
   padding: 5px 15px 10px 15px;
+}
+.portfolio-coins .upward-price-movement {
+  color: green;
+}
+.portfolio-coins .upward-price-movement:before {
+  content: "▲";
+  position: relative;
+  right: 1px;
+  bottom: 2px;
+  font-size: 11px;
+  color: green;
+}
+.portfolio-coins .downward-price-movement {
+  color: red;
+}
+.portfolio-coins .downward-price-movement:before {
+  content: "▼";
+  position: relative;
+  right: 1px;
+  bottom: 1px;
+  font-size: 11px;
+  color: red;
 }
 
 /*# sourceMappingURL=main.css.map */

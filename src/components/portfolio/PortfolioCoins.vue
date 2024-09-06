@@ -7,6 +7,37 @@ export default {
   props: {
     readyData: Array
   },
+  directives: {
+    // Движение цены(визуально)
+    priceMovement: {
+      mounted(el, binding) {
+        const value = binding.value.toString();
+        const classList = el.classList;
+
+        if (value.startsWith("-")) {
+          classList.add("downward-price-movement");
+
+        } else {
+          classList.add("upward-price-movement");
+        }
+      },
+      updated(el, binding) {
+        const value = binding.value.toString();
+        const classList = el.classList;
+
+        // Обнуление
+        classList.remove("upward-price-movement");
+        classList.remove("downward-price-movement");
+
+        if (value.startsWith("-")) {
+          classList.add("downward-price-movement");
+
+        } else {
+          classList.add("upward-price-movement");
+        }
+      }
+    }
+  },
   data() {
     return {
       headers: [
@@ -53,7 +84,7 @@ export default {
         },
       ],
       // Пагинация
-      elementsOnPage: 3,
+      elementsOnPage: 5,
       currentPage: 1,
       // Модальное окно удаления
       isShowModalDeleteCoins: false,
@@ -147,7 +178,7 @@ export default {
           <td>
             {{ item.current_price }} $
           </td>
-          <td>
+          <td v-price-movement="item.price_change_percentage_24h">
             {{ item.price_change_percentage_24h }} %
           </td>
           <td>
@@ -157,7 +188,7 @@ export default {
           <td>
             {{ item.avgBuyPrice }} $
           </td>
-          <td>
+          <td v-price-movement="item.profitOrLoss">
             {{ item.profitOrLoss }} $
           </td>
           <td>
