@@ -1,8 +1,3 @@
-@media (max-width: 1400px) {
-  .portfolio-line-chart {
-    max-width: 100%;
-  }
-}
 @media (max-width: 800px) {
   .portfolio-view {
     grid-template-columns: 100%;

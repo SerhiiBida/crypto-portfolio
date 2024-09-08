@@ -1,7 +1,7 @@
 <script>
 import ModalDeleteCoins from "@/components/portfolio/ModalDeleteCoins.vue";
 import {pagination} from "@/mixins/pagination.js";
-import {priceMovement} from "@/directives/directives.js";
+import {divideNumber, priceMovement} from "@/directives/directives.js";
 
 export default {
   name: "PortfolioCoins",
@@ -13,7 +13,9 @@ export default {
   },
   directives: {
     // Движение цены(визуально)
-    priceMovement
+    priceMovement,
+    // Разделитель чисел
+    divideNumber
   },
   data() {
     return {
@@ -116,27 +118,50 @@ export default {
       <template #item="{ item }">
         <tr>
           <td>
-            {{ item.name }}<br>
+            {{ item.name }}
+            <br>
             {{ item.symbol }}
           </td>
           <td>
-            {{ item.current_price }} $
+            <span v-divide-number>
+              {{ item.current_price }}
+            </span>
+            $
           </td>
           <td v-price-movement="item.price_change_percentage_24h">
-            {{ item.price_change_percentage_24h }} %
+            <span v-divide-number>
+              {{ item.price_change_percentage_24h }}
+            </span>
+            %
           </td>
           <td>
-            ${{ item.realCostCoinInPortfolio }}<br>
-            {{ item.coinsAmountInPortfolio }} {{ item.symbol }}
+            $
+            <span v-divide-number>
+              {{ item.realCostCoinInPortfolio }}
+            </span>
+            <br>
+            <span v-divide-number>
+              {{ item.coinsAmountInPortfolio }}
+            </span>
+            {{ item.symbol }}
           </td>
           <td>
-            {{ item.avgBuyPrice }} $
+            <span v-divide-number>
+              {{ item.avgBuyPrice }}
+            </span>
+            $
           </td>
           <td v-price-movement="item.profitOrLoss">
-            {{ item.profitOrLoss }} $
+            <span v-divide-number>
+              {{ item.profitOrLoss }}
+            </span>
+            $
           </td>
           <td>
-            {{ item.invested }} $
+            <span v-divide-number>
+              {{ item.invested }}
+            </span>
+            $
           </td>
           <td>
             <v-btn
