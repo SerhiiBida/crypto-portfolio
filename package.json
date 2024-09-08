@@ -11,10 +11,12 @@
   "dependencies": {
     "-": "^0.0.1",
     "axios": "^1.7.7",
+    "chart.js": "^4.4.4",
     "firebase": "^10.13.1",
     "material-design-icons-iconfont": "^6.7.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
+    "vue-chartjs": "^5.3.1",
     "vue-router": "^4.3.3",
     "vuetify": "^3.7.0"
   },

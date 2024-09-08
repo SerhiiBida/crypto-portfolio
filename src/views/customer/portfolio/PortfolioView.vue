@@ -107,7 +107,7 @@ export default {
 
 <template>
   <section class="portfolio-view px-1 py-2">
-    <PortfolioLineChart/>
+    <PortfolioLineChart :ready-data="readyData"/>
     <AddCoinForm @update-portfolio="updatePortfolio"/>
     <PortfolioCoins :ready-data="readyData" @update-portfolio="updatePortfolio"/>
   </section>
