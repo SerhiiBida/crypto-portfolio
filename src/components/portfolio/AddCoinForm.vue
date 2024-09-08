@@ -5,6 +5,7 @@ import {getCoinData} from "@/services/coin-gecko.js";
 
 export default {
   name: "AddCoinsForm",
+  emits: ["updatePortfolio"],
   components: {
     AutocompleteWithImg
   },

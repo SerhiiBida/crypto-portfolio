@@ -6,9 +6,6 @@ export default {
   name: "RegisterForm",
   mixins: [authForm],
   methods: {
-    outputError(error) {
-      this.serverError = error;
-    },
     async registration() {
       const valid = await this.validateForm();
 

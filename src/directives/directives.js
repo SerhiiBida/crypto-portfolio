@@ -34,11 +34,17 @@ export const divideNumber = {
     mounted(el, binding) {
         const number = binding.value;
 
-        el.textContent = number.toLocaleString("fr-FR");
+        el.textContent = number.toLocaleString("fr-FR", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 20
+        });
     },
     updated(el, binding) {
         const number = binding.value;
 
-        el.textContent = number.toLocaleString("fr-FR");
+        el.textContent = number.toLocaleString("fr-FR", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 20
+        });
     }
 }

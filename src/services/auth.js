@@ -34,10 +34,7 @@ export default class AuthFirebase {
                 });
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-
-                outputError(`${errorCode}: ${errorMessage}`);
+                outputError(error);
             });
     }
 

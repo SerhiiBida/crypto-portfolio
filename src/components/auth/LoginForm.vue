@@ -6,26 +6,6 @@ export default {
   name: "LoginForm",
   mixins: [authForm],
   methods: {
-    outputError(error) {
-      const errorCode = error.code;
-
-      let errorMessage;
-
-      if (errorCode === "auth/invalid-email") {
-        errorMessage = "Invalid email";
-
-      } else if (errorCode === "auth/user-not-found") {
-        errorMessage = "No account with that email was found";
-
-      } else if (errorCode === "auth/wrong-password") {
-        errorMessage = "Incorrect password";
-
-      } else {
-        errorMessage = "Email or password was incorrect";
-      }
-
-      this.serverError = errorMessage;
-    },
     async authorization() {
       const valid = await this.validateForm();
 

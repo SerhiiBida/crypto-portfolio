@@ -28,6 +28,29 @@ export const authForm = {
         }
     },
     methods: {
+        outputError(error) {
+            const errorCode = error.code;
+
+            let errorMessage;
+
+            if (errorCode === "auth/invalid-email") {
+                errorMessage = "Invalid email";
+
+            } else if (errorCode === "auth/user-not-found") {
+                errorMessage = "No account with that email was found";
+
+            } else if (errorCode === "auth/wrong-password") {
+                errorMessage = "Incorrect password";
+
+            } else if (errorCode === "auth/email-already-in-use") {
+                errorMessage = "Email address already in use";
+
+            } else {
+                errorMessage = "Email or password was incorrect";
+            }
+
+            this.serverError = errorMessage;
+        },
         async validateForm() {
             const {valid} = await this.$refs.form.validate();
 
