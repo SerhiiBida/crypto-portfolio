@@ -7,7 +7,6 @@ import {getCoinsList} from "@/services/coin-gecko.js";
 
 export default {
   name: "PortfolioView",
-  emits: ["updatePortfolio"],
   components: {
     AddCoinForm,
     PortfolioCoins,
@@ -18,6 +17,11 @@ export default {
       readyData: [],
       updateDataTimerId: null
     }
+  },
+  computed: {
+    currentPortfolioId() {
+      return this.$route.params.id;
+    },
   },
   methods: {
     getKeysObject(newObject) {
@@ -55,7 +59,7 @@ export default {
     async loadingData() {
       const coinsInPortfolios = new CoinsInPortfolios();
 
-      const portfolioId = this.$route.params.id;
+      const portfolioId = this.currentPortfolioId;
 
       // Монеты в портфеле
       const coinsWithPortfolio = await coinsInPortfolios.getSumHistoryCoinsInPortfolio(portfolioId);
@@ -89,11 +93,14 @@ export default {
       await this.loadingData();
     }
   },
+  watch: {
+    // Смена портфеля на другой портфель
+    async currentPortfolioId(newValue, oldValue) {
+      await this.updatePortfolio();
+    }
+  },
   async mounted() {
-    // Обновление данных раз в 5 минут
-    this.updateDataTimerId = setInterval(this.loadingData, 5 * 60000);
-
-    await this.loadingData();
+    await this.updatePortfolio();
   },
   // При удалении компонента
   unmounted() {
