@@ -117,10 +117,16 @@ export default {
       <!--Строки-->
       <template #item="{ item }">
         <tr>
-          <td>
-            {{ item.name }}
-            <br>
-            {{ item.symbol }}
+          <td class="portfolio-coins-table-header-name">
+            <img :src="item.image" alt="coin">
+            <div>
+              <p>
+                {{ item.name }}
+              </p>
+              <p>
+                {{ item.symbol }}
+              </p>
+            </div>
           </td>
           <td>
             <span v-divide-number>
@@ -135,15 +141,18 @@ export default {
             %
           </td>
           <td>
-            $
-            <span v-divide-number>
-              {{ item.realCostCoinInPortfolio }}
-            </span>
-            <br>
-            <span v-divide-number>
-              {{ item.coinsAmountInPortfolio }}
-            </span>
-            {{ item.symbol }}
+            <p>
+              $
+              <span v-divide-number>
+                {{ item.realCostCoinInPortfolio }}
+              </span>
+            </p>
+            <p>
+              <span v-divide-number>
+                {{ item.coinsAmountInPortfolio }}
+              </span>
+              {{ item.symbol }}
+            </p>
           </td>
           <td>
             <span v-divide-number>

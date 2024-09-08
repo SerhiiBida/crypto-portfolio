@@ -135,6 +135,17 @@
   opacity: var(--v-medium-emphasis-opacity);
   margin-right: 8px;
 }
+.portfolio-coins .portfolio-coins-table-header-name {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 7px;
+}
+.portfolio-coins .portfolio-coins-table-header-name img {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
 .portfolio-coins .portfolio-coins-pagination {
   display: flex;
   justify-content: start;

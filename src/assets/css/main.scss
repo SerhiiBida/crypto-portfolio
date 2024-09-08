@@ -175,6 +175,19 @@
     margin-right: 8px;
   }
 
+  .portfolio-coins-table-header-name {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 7px;
+
+    img {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+    }
+  }
+
   .portfolio-coins-pagination {
     display: flex;
     justify-content: start;
