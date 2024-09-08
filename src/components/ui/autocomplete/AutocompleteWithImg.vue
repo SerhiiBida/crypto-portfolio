@@ -1,6 +1,7 @@
 <script>
 export default {
   name: "AutocompleteWithImg",
+  emits: ["update:modelValue"],
   props: {
     modelValue: String,
     items: Array,

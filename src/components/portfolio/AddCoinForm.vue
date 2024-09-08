@@ -1,6 +1,7 @@
 <script>
 import AutocompleteWithImg from "@/components/ui/autocomplete/AutocompleteWithImg.vue";
 import {Coins, CoinsInPortfolios} from "@/services/database.js";
+import {getCoinData} from "@/services/coin-gecko.js";
 
 export default {
   name: "AddCoinsForm",
@@ -15,6 +16,8 @@ export default {
         coinsAmount: 0,
         money: 0
       },
+      currentPrice: null,
+      checkInputMoney: false,
       selectCoinRules: [
         v => !!v || "Be sure to select a coin"
       ],
@@ -27,6 +30,19 @@ export default {
     }
   },
   methods: {
+    negativeNumbersBun(key) {
+      this.form[key] = this.form[key] < 0 ? 0 : this.form[key];
+    },
+    calculationCoinsValue() {
+      if ((!this.checkInputMoney || !this.form.money) && this.currentPrice) {
+
+        this.checkInputMoney = false;
+
+        const coinsAmount = this.form.coinsAmount;
+
+        this.form.money = Number((coinsAmount * this.currentPrice).toFixed(5));
+      }
+    },
     async validateForm() {
       const {valid} = await this.$refs.form.validate();
 
@@ -59,6 +75,26 @@ export default {
         this.$emit("updatePortfolio");
 
         this.$refs.form.reset();
+      }
+    }
+  },
+  watch: {
+    // Сохранение актуальной цены выбранной монеты
+    async "form.selectedCoin"(newValue) {
+      if (newValue) {
+        this.currentPrice = null;
+
+        const coinData = await getCoinData(newValue);
+
+        if (!coinData) {
+          return;
+        }
+
+        if (coinData.length === 0) {
+          return;
+        }
+
+        this.currentPrice = coinData[0].current_price;
       }
     }
   },
@@ -102,7 +138,7 @@ export default {
         :rules="numberRules"
         variant="solo"
         class="add-coin-form-input-amount-coins mb-2"
-        @input="form.coinsAmount = form.coinsAmount < 0 ? 0 : form.coinsAmount"
+        @input="negativeNumbersBun('coinsAmount'); calculationCoinsValue()"
     >
     </v-text-field>
 
@@ -114,7 +150,7 @@ export default {
         :rules="numberRules"
         variant="solo"
         class="add-coin-form-input-amount-money mb-2"
-        @input="form.money = form.money < 0 ? 0 : form.money"
+        @input="negativeNumbersBun('money'); checkInputMoney = true"
     >
     </v-text-field>
 

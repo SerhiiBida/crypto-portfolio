@@ -121,6 +121,7 @@
 .autocomplete-with-img .v-list-item .v-list-item__prepend img {
   width: 24px;
   height: 24px;
+  border-radius: 50%;
 }
 
 .portfolio-coins {

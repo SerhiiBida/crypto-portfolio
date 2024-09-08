@@ -38,3 +38,26 @@ export const getCoinsList = async (coinsId) => {
         return null;
     }
 }
+
+
+export const getCoinData = async (coinId) => {
+    const url = "https://api.coingecko.com/api/v3/coins/markets";
+
+    const params = {
+        vs_currency: "usd",
+        ids: coinId
+    }
+
+    const options = getOptions(undefined, url, params);
+
+    try {
+        const response = await axios.request(options);
+
+        return response.data;
+
+    } catch (error) {
+        console.error(`Error, getCoinsList: ${error}`);
+
+        return null;
+    }
+}
