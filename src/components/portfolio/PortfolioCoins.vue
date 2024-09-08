@@ -129,46 +129,40 @@ export default {
             </div>
           </td>
           <td>
-            <span v-divide-number>
+            <span v-divide-number="item.current_price">
               {{ item.current_price }}
             </span>
             $
           </td>
           <td v-price-movement="item.price_change_percentage_24h">
-            <span v-divide-number>
-              {{ item.price_change_percentage_24h }}
+            <span v-divide-number="item.price_change_percentage_24h">
             </span>
             %
           </td>
           <td>
             <p>
               $
-              <span v-divide-number>
-                {{ item.realCostCoinInPortfolio }}
+              <span v-divide-number="item.realCostCoinInPortfolio">
               </span>
             </p>
             <p>
-              <span v-divide-number>
-                {{ item.coinsAmountInPortfolio }}
+              <span v-divide-number="item.coinsAmountInPortfolio">
               </span>
               {{ item.symbol }}
             </p>
           </td>
           <td>
-            <span v-divide-number>
-              {{ item.avgBuyPrice }}
+            <span v-divide-number="item.avgBuyPrice">
             </span>
             $
           </td>
           <td v-price-movement="item.profitOrLoss">
-            <span v-divide-number>
-              {{ item.profitOrLoss }}
+            <span v-divide-number="item.profitOrLoss">
             </span>
             $
           </td>
           <td>
-            <span v-divide-number>
-              {{ item.invested }}
+            <span v-divide-number="item.invested">
             </span>
             $
           </td>

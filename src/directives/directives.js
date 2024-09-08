@@ -32,16 +32,12 @@ export const priceMovement = {
 // Пробел, как разделитель тысяч в числах
 export const divideNumber = {
     mounted(el, binding) {
-        const value = el.textContent;
-
-        const number = Number(value);
+        const number = binding.value;
 
         el.textContent = number.toLocaleString("fr-FR");
     },
     updated(el, binding) {
-        const value = el.textContent;
-
-        const number = Number(value);
+        const number = binding.value;
 
         el.textContent = number.toLocaleString("fr-FR");
     }
