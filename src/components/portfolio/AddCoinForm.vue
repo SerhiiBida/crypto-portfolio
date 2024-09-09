@@ -103,7 +103,11 @@ export default {
     // Загрузка монет для выбора
     const coins = new Coins();
 
-    this.availableCoins = await coins.getCoins();
+    const coinsData = await coins.getCoins();
+
+    if (coinsData) {
+      this.availableCoins = coinsData;
+    }
 
     this.$refs.form.reset();
   }

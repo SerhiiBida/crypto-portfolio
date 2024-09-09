@@ -4,6 +4,7 @@ import {pagination} from "@/mixins/pagination.js";
 
 export default {
   name: "ModalDeleteCoins",
+  emits: ["update:modelValue", "resetCoinId", "updatePortfolio"],
   mixins: [pagination],
   props: {
     modelValue: Boolean,
@@ -63,7 +64,11 @@ export default {
     async updateData() {
       const portfolioId = this.$route.params.id;
 
-      this.data = await this.coinsInPortfolios.getHistoryCoinInPortfolio(portfolioId, this.coinId);
+      const historyCoin = await this.coinsInPortfolios.getHistoryCoinInPortfolio(portfolioId, this.coinId);
+
+      if (historyCoin) {
+        this.data = historyCoin;
+      }
     },
     async deleteHistoryCoin(event, historyId, index) {
       this.isDelete = true;

@@ -70,15 +70,21 @@ export default class User extends BasicFirestore {
     }
 
     listenerUserRole(userId, userStore) {
-        const userRef = doc(this.db, "users", userId);
+        try {
+            const userRef = doc(this.db, "users", userId);
 
-        return onSnapshot(userRef, (doc) => {
-            const data = doc.data();
+            return onSnapshot(userRef, (doc) => {
+                const data = doc.data();
 
-            if (data) {
-                userStore.updateIsAdmin(data.is_admin);
-            }
-        });
+                if (data) {
+                    userStore.updateIsAdmin(data.is_admin);
+                }
+            });
+        } catch (error) {
+            console.log(`Error, listenerUserRole: ${error}`);
+
+            return null;
+        }
     }
 
     listenerOff(listenerUser) {
@@ -117,9 +123,9 @@ export class CoinsInPortfolios extends BasicFirestore {
             );
             const coinInPortfolioSnapshot = await getDocs(coinInPortfolioRef);
 
-            const coinInPortfolio = [];
-
             if (!coinInPortfolioSnapshot.empty) {
+                const coinInPortfolio = [];
+
                 coinInPortfolioSnapshot.forEach((doc) => {
                     const data = doc.data();
 
@@ -130,9 +136,11 @@ export class CoinsInPortfolios extends BasicFirestore {
                         date: data.date.toDate().toLocaleString()
                     });
                 });
+
+                return coinInPortfolio;
             }
 
-            return coinInPortfolio;
+            return null;
 
         } catch (error) {
             console.log(`Error, getHistoryCoinInPortfolio: ${error}`);
@@ -244,26 +252,32 @@ export class Portfolios extends BasicFirestore {
     }
 
     listenerUserPortfolios(userId) {
-        const portfoliosRef = query(
-            collection(this.db, "portfolios"),
-            where("user_id", "==", userId)
-        );
+        try {
+            const portfoliosRef = query(
+                collection(this.db, "portfolios"),
+                where("user_id", "==", userId)
+            );
 
-        return onSnapshot(portfoliosRef, (querySnapshot) => {
-            const portfolios = [];
+            return onSnapshot(portfoliosRef, (querySnapshot) => {
+                const portfolios = [];
 
-            querySnapshot.forEach((doc) => {
-                const id = doc.id;
-                const name = doc.data().name;
+                querySnapshot.forEach((doc) => {
+                    const id = doc.id;
+                    const name = doc.data().name;
 
-                portfolios.push({
-                    id,
-                    name
+                    portfolios.push({
+                        id,
+                        name
+                    });
                 });
-            });
 
-            this.#portfoliosStore.updateData(portfolios);
-        });
+                this.#portfoliosStore.updateData(portfolios);
+            });
+        } catch (error) {
+            console.log(`Error, listenerUserPortfolios: ${error}`);
+
+            return null;
+        }
     }
 
     async checkUserOwnPortfolio(portfolioId) {
@@ -340,22 +354,28 @@ export class Coins extends BasicFirestore {
         try {
             const coinsSnapshot = await getDocs(collection(this.db, "coins"));
 
-            const coins = [];
+            if (!coinsSnapshot.empty) {
+                const coins = [];
 
-            coinsSnapshot.forEach((doc) => {
-                coins.push(
-                    {
-                        id: doc.id,
-                        name: doc.data().name,
-                        image: doc.data().image
-                    }
-                );
-            });
+                coinsSnapshot.forEach((doc) => {
+                    coins.push(
+                        {
+                            id: doc.id,
+                            name: doc.data().name,
+                            image: doc.data().image
+                        }
+                    );
+                });
 
-            return coins;
+                return coins;
+            }
+
+            return null;
 
         } catch (error) {
             console.log(`Error, getCoins: ${error}`);
+
+            return null;
         }
     }
 
