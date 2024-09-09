@@ -75,6 +75,8 @@ export default {
         // Запрос на обновление портфеля на странице
         this.$emit("updatePortfolio");
 
+        this.currentPrice = null;
+
         this.$refs.form.reset();
       }
     }

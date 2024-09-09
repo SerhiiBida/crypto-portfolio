@@ -27,6 +27,9 @@ export default {
     getKeysObject(newObject) {
       return Object.keys(newObject).join(",");
     },
+    roundingNumber(number, fractionDigits) {
+      return Number((number).toFixed(fractionDigits));
+    },
     calculateAvgBuyPrice(coinsAmount, money) {
       return Number((money / coinsAmount).toFixed(5));
     },
@@ -47,8 +50,8 @@ export default {
         const money = coinsWithPortfolio[coinId].totalMoney;
 
         // New data
-        realCoinsData[i].coinsAmountInPortfolio = coinsAmount;
-        realCoinsData[i].invested = money;
+        realCoinsData[i].coinsAmountInPortfolio = this.roundingNumber(coinsAmount, 10);
+        realCoinsData[i].invested = this.roundingNumber(money, 5);
         realCoinsData[i].avgBuyPrice = this.calculateAvgBuyPrice(coinsAmount, money);
         realCoinsData[i].realCostCoinInPortfolio = this.calculateRealCostCoinInPortfolio(coinPrice, coinsAmount);
         realCoinsData[i].profitOrLoss = this.calculateProfitOrLoss(coinPrice, coinsAmount, money);

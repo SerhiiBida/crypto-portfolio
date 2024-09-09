@@ -19,15 +19,18 @@ export default {
       const valid = await this.validateForm();
 
       if (valid) {
+        const name = this.form.name;
+
+        // Сброс формы
+        this.$refs.form.reset();
+
         const dbPortfolio = new Portfolios();
 
         this.isLoading = true;
 
-        await dbPortfolio.addPortfolio(this.form.name);
+        await dbPortfolio.addPortfolio(name);
 
         this.isLoading = false;
-
-        this.$refs.form.reset();
       }
     }
   },
@@ -35,7 +38,7 @@ export default {
 </script>
 
 <template>
-  <section class="portfolios-form-wrapper my-2">
+  <section class="portfolios-form-wrapper ma-2">
     <p class="portfolios-form-title text-h6 text-center font-weight-bold text-blue-accent-3 mb-4">
       Portfolios
     </p>
