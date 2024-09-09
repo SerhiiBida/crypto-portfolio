@@ -1,14 +1,6 @@
 # crypto-portfolio
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Online crypto portfolio, a place to track all of a user's cryptocurrency investments.
 
 ## Project Setup
 
@@ -27,3 +19,15 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## User registration
+
+![img.png](src/assets/images/readme/auth.png)
+
+## Portfolio management
+
+![img.png](src/assets/images/readme/portfolios-management.png)
+
+## User's portfolio
+
+![img.png](src/assets/images/readme/portfolio.png)
