@@ -51,7 +51,6 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     const userStore = useUserStore(pinia);
-    const portfolioStore = usePortfoliosStore(pinia);
 
     // Задержка для первой проверки авторизации
     if (!userStore.getFirstCheckPassed) {

@@ -1,27 +1,32 @@
-<script>
-import {authForm} from "@/mixins/form.js";
+<script setup>
+import {useRouter} from "vue-router";
+
+import {useAuthForm} from "@/mixins/form.js";
 import AuthFirebase from "@/services/auth.js";
 
-export default {
-  name: "LoginForm",
-  mixins: [authForm],
-  methods: {
-    async authorization() {
-      const valid = await this.validateForm();
 
-      if (valid) {
-        const auth = new AuthFirebase();
+const {
+  formRef, form, emailRules, passwordRules,
+  serverError, outputError, validateForm
+} = useAuthForm();
 
-        auth.login(
-            this.form.email,
-            this.form.password,
-            this.$router,
-            this.outputError
-        );
-      }
-    }
+const router = useRouter();
+
+
+const authorization = async () => {
+  const valid = await validateForm();
+
+  if (valid) {
+    const auth = new AuthFirebase();
+
+    auth.login(
+        form.email,
+        form.password,
+        router,
+        outputError
+    );
   }
-}
+};
 </script>
 
 <template>
@@ -42,7 +47,7 @@ export default {
 
     <!--Форма-->
     <v-form
-        ref="form"
+        ref="formRef"
         action="#"
         method="post"
         class="login-form"
