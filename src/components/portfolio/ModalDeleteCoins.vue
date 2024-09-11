@@ -39,7 +39,7 @@ export default {
       coinsInPortfolios: new CoinsInPortfolios(),
       isDisabledDeleteAll: false,
       // Проверка, было ли удаление
-      isDelete: false
+      isDeleted: false
     }
   },
   computed: {
@@ -71,7 +71,7 @@ export default {
       }
     },
     async deleteHistoryCoin(event, historyId, index) {
-      this.isDelete = true;
+      this.isDeleted = true;
 
       const targetElement = event.target;
 
@@ -94,7 +94,7 @@ export default {
       this.data.splice(index, 1);
     },
     async deleteAllHistoryCoin() {
-      this.isDelete = true;
+      this.isDeleted = true;
       this.isDisabledDeleteAll = true;
 
       const portfolioId = this.$route.params.id;
@@ -119,11 +119,11 @@ export default {
       }
     },
     async showModal(newValue) {
-      if (!newValue && this.isDelete) {
+      if (!newValue && this.isDeleted) {
         // Обновляем данные портфеля
         this.$emit("updatePortfolio");
 
-        this.isDelete = false;
+        this.isDeleted = false;
       }
     }
   }

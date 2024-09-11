@@ -3,6 +3,9 @@ import axios from "axios";
 import env from "../../env.js";
 
 
+const urlCoinsMarkets = "https://api.coingecko.com/api/v3/coins/markets";
+
+
 const getOptions = (method = "GET", url, params = {}) => {
     return {
         method,
@@ -18,7 +21,7 @@ const getOptions = (method = "GET", url, params = {}) => {
 };
 
 export const getCoinsList = async (coinsId) => {
-    const url = "https://api.coingecko.com/api/v3/coins/markets";
+    const url = urlCoinsMarkets;
 
     const params = {
         vs_currency: "usd",
@@ -41,7 +44,7 @@ export const getCoinsList = async (coinsId) => {
 
 
 export const getCoinData = async (coinId) => {
-    const url = "https://api.coingecko.com/api/v3/coins/markets";
+    const url = urlCoinsMarkets;
 
     const params = {
         vs_currency: "usd",
